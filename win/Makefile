@@ -28,14 +28,17 @@ LK_FLAGS = /nologo /SUBSYSTEM:CONSOLE user32.lib
 # -----------------------------------------------------------------------------------------
 
 OBJECTS = $(BUILD_DIR)\main.obj \
-	$(BUILD_DIR)\runtime.obj \
 	$(BUILD_DIR)\process.obj \
+	$(BUILD_DIR)\runtime.obj \
+	$(BUILD_DIR)\log.obj \
 
 # -----------------------------------------------------------------------------------------
 # ALVOS PRINCIPAIS
 # -----------------------------------------------------------------------------------------
 
-all: $(TARGET) $(BUILD_DIR)\winparent.exe $(BUILD_DIR)\winchild.exe
+all: $(TARGET)
+
+wintests: $(BUILD_DIR)\winparent.exe $(BUILD_DIR)\winchild.exe
 
 clean: $(BUILD_DIR)
 	$(RM) $(BUILD_DIR)
@@ -55,6 +58,9 @@ $(BUILD_DIR)\main.obj: $(SRC_DIR)\main.c
 
 $(BUILD_DIR)\process.obj: $(SRC_DIR)\process.c
 	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\process.obj %s
+
+$(BUILD_DIR)\log.obj: $(SRC_DIR)\log.c
+	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\log.obj %s
 
 # -----------------------------------------------------------------------------------------
 # ALVOS DA API WINDOWS PARA NDE

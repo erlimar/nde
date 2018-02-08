@@ -8,6 +8,7 @@
 
 #define nde_nullptr NULL;
 
+typedef unsigned char byte;
 typedef void *nde_ptr;
 typedef size_t nde_ptr_size;
 

@@ -3,25 +3,87 @@
 
 #include <stdio.h>
 
-#include "nde/process.h"
+#include "nde/log.h"
 
 int main(int argc, char *argv[])
 {
-    nde_process g = {57};
+    printf("Configura log de nível crítico:\n");
+    {
+        LOG_LEVEL(NDE_LOG_LEVEL_CRITICAL);
 
-    nde_process_p p = nde_process_create();
+        TRCE("Warning message log.");
+        DBUG("Debug message log.");
+        INFO("Information message log.");
+        WARN("Warning message log.");
+        FAIL("Fail message log.");
+        CRIT("Critical message log.");
+        printf("\n");
+    }
 
-    printf("Hello World (%d)!\n", g.input_handle);
-    printf("Hello World (%d)!\n", p->input_handle);
+    printf("Configura log de nível falha:\n");
+    {
+        LOG_LEVEL(NDE_LOG_LEVEL_FAIL);
 
-    nde_process_destroy(p);
+        TRCE("Warning message log.");
+        DBUG("Debug message log.");
+        INFO("Information message log.");
+        WARN("Warning message log.");
+        FAIL("Fail message log.");
+        CRIT("Critical message log.");
+        printf("\n");
+    }
 
-    printf("Hello Error World (%d)!\n", p->input_handle);
+    printf("Configura log de nível alerta:\n");
+    {
+        LOG_LEVEL(NDE_LOG_LEVEL_WARNING);
 
-#ifdef DEBUG
-    printf("Press [ENTER] to close!");
-    scanf("debug");
-#endif
+        TRCE("Warning message log.");
+        DBUG("Debug message log.");
+        INFO("Information message log.");
+        WARN("Warning message log.");
+        FAIL("Fail message log.");
+        CRIT("Critical message log.");
+        printf("\n");
+    }
+
+    printf("Configura // log de nível informação:\n");
+    {
+        LOG_LEVEL(NDE_LOG_LEVEL_INFORMATION);
+
+        TRCE("Warning message log.");
+        DBUG("Debug message log.");
+        INFO("Information message log.");
+        WARN("Warning message log.");
+        FAIL("Fail message log.");
+        CRIT("Critical message log.");
+        printf("\n");
+    }
+
+    printf("Configura log de nível depuração:\n");
+    {
+        LOG_LEVEL(NDE_LOG_LEVEL_DEBUG);
+
+        TRCE("Warning message log.");
+        DBUG("Debug message log.");
+        INFO("Information message log.");
+        WARN("Warning message log.");
+        FAIL("Fail message log.");
+        CRIT("Critical message log.");
+        printf("\n");
+    }
+
+    printf("Configura // log de todos os níveis:\n");
+    {
+        LOG_LEVEL(NDE_LOG_LEVEL_TRACE);
+
+        TRCE("Warning message log.");
+        DBUG("Debug message log.");
+        INFO("Information message log.");
+        WARN("Warning message log.");
+        FAIL("Fail message log.");
+        CRIT("Critical message log.");
+        printf("\n");
+    }
 
     return 0;
 }
