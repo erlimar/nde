@@ -4,9 +4,13 @@
 #ifndef _NDE_PROCESS_H_
 #define _NDE_PROCESS_H_
 
+#include "nde.h"
+
 typedef struct nde_process_s
 {
-    int input_handle;
+    nde_ptr input_handle;
+    nde_ptr output_handle;
+    nde_ptr error_handle;
 } nde_process;
 
 typedef nde_process *nde_process_p;

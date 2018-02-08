@@ -21,7 +21,7 @@ RM = rmdir /S /Q
 CC = cl.exe
 CC_FLAGS = /nologo /c /w -DDEBUG /I$(INCLUDE_DIR)
 LK = link.exe
-LK_FLAGS = /nologo /DEBUG=FULL /SUBSYSTEM:CONSOLE
+LK_FLAGS = /nologo /SUBSYSTEM:CONSOLE user32.lib
 
 # -----------------------------------------------------------------------------------------
 # OBJETOS
@@ -35,13 +35,13 @@ OBJECTS = $(BUILD_DIR)\main.obj \
 # ALVOS PRINCIPAIS
 # -----------------------------------------------------------------------------------------
 
-all: $(TARGET)
+all: $(TARGET) $(BUILD_DIR)\winparent.exe $(BUILD_DIR)\winchild.exe
 
 clean: $(BUILD_DIR)
 	$(RM) $(BUILD_DIR)
 
 $(TARGET): $(BUILD_DIR) $(OBJECTS)
-	$(LK) $(LK_FLAGS) /PDB:$(BUILD_DIR)\nde.pdb /OUT:$(TARGET) $(OBJECTS)
+	$(LK) $(LK_FLAGS) /OUT:$(TARGET) $(OBJECTS)
 
 $(BUILD_DIR):
 	$(MKDIR) $(BUILD_DIR)
@@ -62,3 +62,19 @@ $(BUILD_DIR)\process.obj: $(SRC_DIR)\process.c
 
 $(BUILD_DIR)\runtime.obj: $(API_SRC_DIR)\runtime.c
 	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\runtime.obj %s
+
+# -----------------------------------------------------------------------------------------
+# ALVOS DOS TESTES
+# -----------------------------------------------------------------------------------------
+
+$(BUILD_DIR)\win-parent.obj: $(SRC_DIR)\win-parent.c
+	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\win-parent.obj %s
+
+$(BUILD_DIR)\win-child.obj: $(SRC_DIR)\win-child.c
+	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\win-child.obj %s
+
+$(BUILD_DIR)\winparent.exe: $(BUILD_DIR) $(BUILD_DIR)\win-parent.obj
+	$(LK) $(LK_FLAGS) /OUT:$(BUILD_DIR)\winparent.exe $(BUILD_DIR)\win-parent.obj
+
+$(BUILD_DIR)\winchild.exe: $(BUILD_DIR) $(BUILD_DIR)\win-child.obj
+	$(LK) $(LK_FLAGS) /OUT:$(BUILD_DIR)\winchild.exe $(BUILD_DIR)\win-child.obj 

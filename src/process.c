@@ -22,7 +22,7 @@ nde_process_p
 nde_process_create(void)
 {
     nde_ptr_size p_size = sizeof(nde_process);
-    nde_process_p p = (nde_process_p)nde_runtime_get_memory(p_size);
+    nde_process_p p = (nde_process_p)nde_runtime_alloc_memory(p_size);
 
     _nde_process_init(p);
 
@@ -35,7 +35,7 @@ nde_process_create(void)
 void
 nde_process_destroy(nde_process_p p)
 {
-    nde_runtime_clear_memory((void*)p);
+    nde_runtime_free_memory((void*)p);
 }
 
 // ---------------------------------
@@ -50,5 +50,7 @@ nde_process_destroy(nde_process_p p)
 void
 _nde_process_init(nde_process_p process)
 {
-    process->input_handle = 0;
+    process->input_handle = nde_nullptr;
+    process->output_handle = nde_nullptr;
+    process->error_handle = nde_nullptr;
 }
