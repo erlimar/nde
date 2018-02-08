@@ -13,13 +13,13 @@ typedef nde_process *nde_process_p;
 
 /**
  * @constructor
- * Creates an instance of nde_process
+ * Cria uma instância de <nde_process>
  */
 nde_process_p nde_process_create(void);
 
 /**
  * @destructor
- * Releases the memory allocated by the nde_process instance
+ * Libera a memória alocada por uma instância de <instance>
  */
 void nde_process_destroy(nde_process_p);
 

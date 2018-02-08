@@ -6,6 +6,6 @@
 
 #include "nde.h"
 
-/* TODO: Not implemented */
+// TODO: Não implementado
 
 #endif // _NDE_API_SUBPROCESS_H_

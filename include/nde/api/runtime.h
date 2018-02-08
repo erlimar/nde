@@ -7,17 +7,17 @@
 #include "nde.h"
 
 /**
- * Allocates @size bytes of memory
+ * Aloca @size bytes de memória
  * 
- * @param {size} size of memory to alocate
- * @return {nde_ptr} reference
+ * @param {size} Tamanho da memória para alocar
+ * @return {nde_ptr} Referência de memória
  */
 nde_ptr nde_runtime_get_memory(nde_ptr_size size);
 
 /**
- * De-allocates memory used by @ptr
+ * Desaloca memória usada por <ptr>
  * 
- * @param {ptr} {nde_ptr} reference
+ * @param {ptr} {nde_ptr} Referência de memória
  */
 void nde_runtime_clear_memory(nde_ptr ptr);
 

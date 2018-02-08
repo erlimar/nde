@@ -12,7 +12,7 @@ nde_runtime_get_memory(nde_ptr_size size)
 
     if(ptr == NULL)
     {
-        /* THROW ERROR! */
+        // TODO: Lançar erro!
     }
 
     return (nde_ptr)ptr;

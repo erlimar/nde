@@ -6,14 +6,14 @@
 #include "nde/api/runtime.h"
 #include "nde/process.h"
 
-// -------------------------
-// Private methods interface
-// -------------------------
+// -----------------------------
+// Interface de métodos privados
+// -----------------------------
 void _nde_process_init(nde_process_p process);
 
-// -----------------------------
-// Public methods implementation
-// -----------------------------
+// ---------------------------------
+// Implementação de métodos públicos
+// ---------------------------------
 
 /**
  * @constructor
@@ -29,14 +29,14 @@ nde_process_create(void)
     return p;
 }
 
-// -----------------------------
-// Private methods implementation
-// -----------------------------
+// ---------------------------------
+// Implementação de métodos privados
+// ---------------------------------
 
 /**
- * Initialize process instance
+ * Inicializa uma instância de <process>
  * 
- * @param {process} nde_process_p reference
+ * @param {process} Referência a um <nde_process_p>
  */
 void
 _nde_process_init(nde_process_p process)
