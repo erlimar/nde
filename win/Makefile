@@ -12,37 +12,53 @@ SRC_DIR = ..\src
 API_SRC_DIR = .\api
 INCLUDE_DIR = ..\include
 
+TARGET = $(BUILD_DIR)\nde.exe
+
 MKDIR = mkdir
 DEL = erase /F /Q
 RM = rmdir /S /Q
 
 CC = cl.exe
-CC_FLAGS = /nologo /c /Wall /Gw /Gy /GA /I$(INCLUDE_DIR)
+CC_FLAGS = /nologo /c /w -DDEBUG /I$(INCLUDE_DIR)
+LK = link.exe
+LK_FLAGS = /nologo /DEBUG=FULL /SUBSYSTEM:CONSOLE
 
 # -----------------------------------------------------------------------------------------
-# COMMONS TARGETS
+# OBJETOS
 # -----------------------------------------------------------------------------------------
 
-all: $(BUILD_DIR) \
-$(BUILD_DIR)\main.obj \
-$(BUILD_DIR)\process.obj
+OBJECTS = $(BUILD_DIR)\main.obj \
+	$(BUILD_DIR)\runtime.obj \
+	$(BUILD_DIR)\process.obj \
+
+# -----------------------------------------------------------------------------------------
+# ALVOS PRINCIPAIS
+# -----------------------------------------------------------------------------------------
+
+all: $(TARGET)
 
 clean: $(BUILD_DIR)
 	$(RM) $(BUILD_DIR)
 
-# -----------------------------------------------------------------------------------------
-# NDE CORE TARGETS
-# -----------------------------------------------------------------------------------------
+$(TARGET): $(BUILD_DIR) $(OBJECTS)
+	$(LK) $(LK_FLAGS) /PDB:$(BUILD_DIR)\nde.pdb /OUT:$(TARGET) $(OBJECTS)
 
 $(BUILD_DIR):
 	$(MKDIR) $(BUILD_DIR)
 
+# -----------------------------------------------------------------------------------------
+# ALVOS DOS COMPONENTES NDE
+# -----------------------------------------------------------------------------------------
+
 $(BUILD_DIR)\main.obj: $(SRC_DIR)\main.c
 	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\main.obj %s
 
+$(BUILD_DIR)\process.obj: $(SRC_DIR)\process.c
+	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\process.obj %s
+
 # -----------------------------------------------------------------------------------------
-# NDE WIN API TARGETS
+# ALVOS DA API WINDOWS PARA NDE
 # -----------------------------------------------------------------------------------------
 
-$(BUILD_DIR)\process.obj: $(API_SRC_DIR)\process.c
-	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\process.obj %s
+$(BUILD_DIR)\runtime.obj: $(API_SRC_DIR)\runtime.c
+	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\runtime.obj %s

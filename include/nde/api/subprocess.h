@@ -1,9 +1,11 @@
 // Copyright (c) E5R Development Team. All rights reserved.
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
-#include "nde/api/process.h"
+#ifndef _NDE_API_SUBPROCESS_H_
+#define _NDE_API_SUBPROCESS_H_
 
-NdeProcess nde_create_process(void)
-{
-    // TODO...
-}
+#include "nde.h"
+
+/* TODO: Not implemented */
+
+#endif // _NDE_API_SUBPROCESS_H_

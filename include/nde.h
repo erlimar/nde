@@ -4,6 +4,11 @@
 #ifndef _NDE_H_
 #define _NDE_H_
 
-#include "nde/api/process.h"
+#include <stddef.h>
+
+#define nde_nullptr NULL;
+
+typedef void *nde_ptr;
+typedef size_t nde_ptr_size;
 
 #endif // _NDE_H_
