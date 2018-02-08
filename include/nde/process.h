@@ -19,7 +19,7 @@ nde_process_p nde_process_create(void);
 
 /**
  * @destructor
- * Libera a memória alocada por uma instância de <instance>
+ * Libera a memória alocada por uma instância de <nde_process_p>
  */
 void nde_process_destroy(nde_process_p);
 
