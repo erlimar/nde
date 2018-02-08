@@ -3,9 +3,8 @@
 
 #include <stdio.h>
 
-#include "nde/api/runtime.h"
-#include "nde/log.h"
 #include "nde.h"
+#include "nde/log.h"
 
 // --------------------------
 // Variáveis globais privadas
@@ -16,10 +15,6 @@ static byte _nde_log_config_level = NDE_LOG_LEVEL_DEBUG;
 #else
 static byte _nde_log_config_level = NDE_LOG_LEVEL_FAIL;
 #endif
-
-// -----------------------------
-// Interface de métodos privados
-// -----------------------------
 
 // ---------------------------------
 // Implementação de métodos públicos
