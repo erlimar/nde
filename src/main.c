@@ -14,6 +14,10 @@ int main(int argc, char *argv[])
     printf("Hello World (%d)!\n", g.input_handle);
     printf("Hello World (%d)!\n", p->input_handle);
 
+    nde_process_destroy(p);
+
+    printf("Hello Error World (%d)!\n", p->input_handle);
+
 #ifdef DEBUG
     printf("Press [ENTER] to close!");
     scanf("debug");

@@ -29,12 +29,21 @@ nde_process_create(void)
     return p;
 }
 
+/**
+ * @destructor
+ */
+void
+nde_process_destroy(nde_process_p p)
+{
+    nde_runtime_clear_memory((void*)p);
+}
+
 // ---------------------------------
 // Implementação de métodos privados
 // ---------------------------------
 
 /**
- * Inicializa uma instância de <process>
+ * Inicializa uma instância de <nde_process>
  * 
  * @param {process} Referência a um <nde_process_p>
  */
