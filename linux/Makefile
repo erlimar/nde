@@ -40,7 +40,7 @@ OBJECTS = $(BUILD_DIR)/main.o \
 
 all: $(TARGET)
 
-linuxtests: $(BUILD_DIR)/linuxparent $(BUILD_DIR)/linuxchild
+test: $(BUILD_DIR)/linuxparent $(BUILD_DIR)/linuxchild
 
 clean: $(BUILD_DIR)
 	 $(RM) $(BUILD_DIR)

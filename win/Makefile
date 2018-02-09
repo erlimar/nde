@@ -40,7 +40,7 @@ OBJECTS = $(BUILD_DIR)\main.obj \
 
 all: $(TARGET)
 
-wintests: $(BUILD_DIR)\winparent.exe $(BUILD_DIR)\winchild.exe
+test: $(BUILD_DIR)\winparent.exe $(BUILD_DIR)\winchild.exe
 
 clean: $(BUILD_DIR)
 	$(RM) $(BUILD_DIR)
