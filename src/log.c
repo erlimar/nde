@@ -28,9 +28,7 @@ void nde_log_config_level(byte level)
 void nde_log_write(byte level, const char *msg)
 {
     if (level > _nde_log_config_level)
-    {
         return;
-    }
 
     char *prefix;
 

@@ -10,7 +10,7 @@ nde_runtime_alloc_memory(nde_ptr_size size)
 {
     void *ptr = malloc(size);
 
-    if(ptr == NULL)
+    if (ptr == NULL)
     {
         // TODO: Lançar erro!
     }
@@ -20,10 +20,8 @@ nde_runtime_alloc_memory(nde_ptr_size size)
 
 void nde_runtime_free_memory(nde_ptr ptr)
 {
-    if(ptr == NULL)
-    {
+    if (ptr == NULL)
         return;
-    }
 
-    free((void*)ptr);
+    free((void *)ptr);
 }
