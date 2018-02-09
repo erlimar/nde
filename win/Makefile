@@ -29,7 +29,8 @@ LK_FLAGS = /nologo /SUBSYSTEM:CONSOLE user32.lib
 
 OBJECTS = $(BUILD_DIR)\main.obj \
 	$(BUILD_DIR)\process.obj \
-	$(BUILD_DIR)\runtime.obj \
+	$(BUILD_DIR)\shared-runtime.obj \
+	$(BUILD_DIR)\windows-runtime.obj \
 	$(BUILD_DIR)\log.obj \
 
 # -----------------------------------------------------------------------------------------
@@ -59,6 +60,9 @@ $(BUILD_DIR)\main.obj: $(SRC_DIR)\main.c
 $(BUILD_DIR)\process.obj: $(SRC_DIR)\process.c
 	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\process.obj %s
 
+$(BUILD_DIR)\shared-runtime.obj: $(SRC_DIR)\shared-runtime.c
+	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\shared-runtime.obj %s
+
 $(BUILD_DIR)\log.obj: $(SRC_DIR)\log.c
 	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\log.obj %s
 
@@ -66,8 +70,8 @@ $(BUILD_DIR)\log.obj: $(SRC_DIR)\log.c
 # ALVOS DA API WINDOWS PARA NDE
 # -----------------------------------------------------------------------------------------
 
-$(BUILD_DIR)\runtime.obj: $(API_SRC_DIR)\runtime.c
-	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\runtime.obj %s
+$(BUILD_DIR)\windows-runtime.obj: $(API_SRC_DIR)\runtime.c
+	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\windows-runtime.obj %s
 
 # -----------------------------------------------------------------------------------------
 # ALVOS DOS TESTES

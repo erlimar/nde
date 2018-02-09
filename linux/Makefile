@@ -29,7 +29,8 @@ LK_FLAGS =
 
 OBJECTS = $(BUILD_DIR)/main.o \
 	$(BUILD_DIR)/process.o \
-	$(BUILD_DIR)/runtime.o \
+	$(BUILD_DIR)/shared-runtime.o \
+	$(BUILD_DIR)/linux-runtime.o \
 	$(BUILD_DIR)/log.o \
 
 # -----------------------------------------------------------------------------------------
@@ -59,6 +60,9 @@ $(BUILD_DIR)/main.o: $(SRC_DIR)/main.c
 $(BUILD_DIR)/process.o: $(SRC_DIR)/process.c
 	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/process.o $?
 
+$(BUILD_DIR)/shared-runtime.o: $(SRC_DIR)/shared-runtime.c
+	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/shared-runtime.o $?
+
 $(BUILD_DIR)/log.o: $(SRC_DIR)/log.c
 	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/log.o $?
 
@@ -66,8 +70,8 @@ $(BUILD_DIR)/log.o: $(SRC_DIR)/log.c
 # ALVOS DA API WINDOWS PARA NDE
 # -----------------------------------------------------------------------------------------
 
-$(BUILD_DIR)/runtime.o: $(API_SRC_DIR)/runtime.c
-	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/runtime.o $?
+$(BUILD_DIR)/linux-runtime.o: $(API_SRC_DIR)/runtime.c
+	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/linux-runtime.o $?
 
 # -----------------------------------------------------------------------------------------
 # ALVOS DOS TESTES
