@@ -6,10 +6,10 @@
 
 #include <stddef.h>
 
-#define nde_nullptr NULL
+#define NdeNullPtr NULL
 
-typedef unsigned char byte;
-typedef void *nde_ptr;
-typedef size_t nde_ptr_size;
+typedef unsigned char NdeByte;
+typedef void *NdePtr;
+typedef size_t NdePtrSize;
 
 #endif // _NDE_H_

@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     nde_process_set_current_directory(p, "/usr/bin/");
     printf("CD: %s\n", nde_process_get_current_directory(p));
 
-    nde_process_set_current_directory(p, nde_nullptr);
+    nde_process_set_current_directory(p, NdeNullPtr);
     printf("CD: %s\n", nde_process_get_current_directory(p));
 
     return 0;

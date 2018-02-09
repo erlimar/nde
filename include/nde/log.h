@@ -9,12 +9,12 @@
 /**
  * Configura o nível do log
  */
-void nde_log_config_level(byte);
+void nde_log_config_level(NdeByte);
 
 /**
  * Escreve mensagem no mecanismo de log
  */
-void nde_log_write(byte, const char *);
+void nde_log_write(NdeByte, const char *);
 
 /**
  * Níveis de log

@@ -21,9 +21,9 @@ NdeProcess nde_process_create(void);
 void nde_process_destroy(NdeProcess);
 
 // void nde_process_set_handles(nde_process_p,
-//                              nde_ptr,
-//                              nde_ptr,
-//                              nde_ptr);
+//                              NdePtr,
+//                              NdePtr,
+//                              NdePtr);
 
 /**
  * Obtem o valor do comando do processo

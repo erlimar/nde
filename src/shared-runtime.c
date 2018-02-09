@@ -5,8 +5,8 @@
 
 #include "nde/api/runtime.h"
 
-nde_ptr
-nde_runtime_alloc_memory(nde_ptr_size size)
+NdePtr
+nde_runtime_alloc_memory(NdePtrSize size)
 {
     void *ptr = malloc(size);
 
@@ -15,10 +15,10 @@ nde_runtime_alloc_memory(nde_ptr_size size)
         // TODO: Lançar erro!
     }
 
-    return (nde_ptr)ptr;
+    return (NdePtr)ptr;
 }
 
-void nde_runtime_free_memory(nde_ptr ptr)
+void nde_runtime_free_memory(NdePtr ptr)
 {
     if (ptr == NULL)
         return;

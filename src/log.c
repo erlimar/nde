@@ -11,21 +11,21 @@
 // --------------------------
 
 #ifdef DEBUG
-static byte _nde_log_config_level = NDE_LOG_LEVEL_DEBUG;
+static NdeByte _nde_log_config_level = NDE_LOG_LEVEL_DEBUG;
 #else
-static byte _nde_log_config_level = NDE_LOG_LEVEL_FAIL;
+static NdeByte _nde_log_config_level = NDE_LOG_LEVEL_FAIL;
 #endif
 
 // ---------------------------------
 // Implementação de métodos públicos
 // ---------------------------------
 
-void nde_log_config_level(byte level)
+void nde_log_config_level(NdeByte level)
 {
     _nde_log_config_level = level;
 }
 
-void nde_log_write(byte level, const char *msg)
+void nde_log_write(NdeByte level, const char *msg)
 {
     if (level > _nde_log_config_level)
         return;

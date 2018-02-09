@@ -10,15 +10,15 @@
  * Aloca @size bytes de memória
  * 
  * @param {size} Tamanho da memória para alocar
- * @return {nde_ptr} Referência de memória
+ * @return {NdePtr} Referência de memória
  */
-nde_ptr nde_runtime_alloc_memory(nde_ptr_size size);
+NdePtr nde_runtime_alloc_memory(NdePtrSize size);
 
 /**
  * Desaloca memória usada por <ptr>
  * 
- * @param {ptr} {nde_ptr} Referência de memória
+ * @param {ptr} {NdePtr} Referência de memória
  */
-void nde_runtime_free_memory(nde_ptr ptr);
+void nde_runtime_free_memory(NdePtr ptr);
 
 #endif // _NDE_API_RUNTIME_H_

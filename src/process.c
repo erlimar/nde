@@ -12,11 +12,11 @@
 // --------------------------
 typedef struct _nde_process_s
 {
-    nde_ptr input_handle;
-    nde_ptr output_handle;
-    nde_ptr error_handle;
-    nde_ptr command;
-    nde_ptr current_directory;
+    NdePtr input_handle;
+    NdePtr output_handle;
+    NdePtr error_handle;
+    NdePtr command;
+    NdePtr current_directory;
     // nde_string_list_p command_args;
     // nde_string_list_p command_env;
 } _nde_process;
@@ -27,7 +27,7 @@ typedef _nde_process *_nde_process_p;
 // Interface de métodos privados
 // -----------------------------
 void _nde_process_init(_nde_process_p process);
-char *_nde_process_get_string_field(nde_ptr *field);
+char *_nde_process_get_string_field(NdePtr *field);
 char *_nde_process_copy_string(char *value);
 
 // ---------------------------------
@@ -39,7 +39,7 @@ char *_nde_process_copy_string(char *value);
  */
 NdeProcess nde_process_create(void)
 {
-    nde_ptr_size p_size = sizeof(_nde_process);
+    NdePtrSize p_size = sizeof(_nde_process);
     NdeProcess p = (NdeProcess)nde_runtime_alloc_memory(p_size);
 
     _nde_process_init(p);
@@ -67,11 +67,11 @@ void nde_process_set_command(NdeProcess process, char *command)
 {
     _nde_process_p self = ((_nde_process_p)process);
 
-    if (self->command != nde_nullptr)
+    if (self->command != NdeNullPtr)
     {
         // Limpando valor anterior
         nde_runtime_free_memory(self->command);
-        self->command = nde_nullptr;
+        self->command = NdeNullPtr;
     }
 
     self->command = _nde_process_copy_string(command);
@@ -88,11 +88,11 @@ void nde_process_set_current_directory(NdeProcess process, char *cd)
 {
     _nde_process_p self = ((_nde_process_p)process);
 
-    if (self->current_directory != nde_nullptr)
+    if (self->current_directory != NdeNullPtr)
     {
         // Limpando valor anterior
         nde_runtime_free_memory(self->current_directory);
-        self->current_directory = nde_nullptr;
+        self->current_directory = NdeNullPtr;
     }
 
     self->current_directory = _nde_process_copy_string(cd);
@@ -109,20 +109,20 @@ void nde_process_set_current_directory(NdeProcess process, char *cd)
  */
 void _nde_process_init(_nde_process_p process)
 {
-    process->input_handle = nde_nullptr;
-    process->output_handle = nde_nullptr;
-    process->error_handle = nde_nullptr;
-    process->command = nde_nullptr;
-    process->current_directory = nde_nullptr;
-    // process->command_args = nde_nullptr;
-    // process->command_env = nde_nullptr;
+    process->input_handle = NdeNullPtr;
+    process->output_handle = NdeNullPtr;
+    process->error_handle = NdeNullPtr;
+    process->command = NdeNullPtr;
+    process->current_directory = NdeNullPtr;
+    // process->command_args = NdeNullPtr;
+    // process->command_env = NdeNullPtr;
 }
 
-char *_nde_process_get_string_field(nde_ptr *field)
+char *_nde_process_get_string_field(NdePtr *field)
 {
-    if (field == nde_nullptr)
+    if (field == NdeNullPtr)
     {
-        return (char *)nde_nullptr;
+        return (char *)NdeNullPtr;
     }
 
     return (char *)*field;
@@ -130,12 +130,12 @@ char *_nde_process_get_string_field(nde_ptr *field)
 
 char *_nde_process_copy_string(char *value)
 {
-    if (value == nde_nullptr)
+    if (value == NdeNullPtr)
     {
-        return (char *)nde_nullptr;
+        return (char *)NdeNullPtr;
     }
 
-    nde_ptr_size string_size = strlen(value);
+    NdePtrSize string_size = strlen(value);
 
     char *result = nde_runtime_alloc_memory(string_size + 1);
 
