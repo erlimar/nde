@@ -9,6 +9,7 @@
 
 BUILD_DIR = ../build/linux
 SRC_DIR = ../src
+LINUX_SRC_DI = ./
 API_SRC_DIR = ./api
 INCLUDE_DIR = ../include
 
@@ -77,10 +78,10 @@ $(BUILD_DIR)/linux-runtime.o: $(API_SRC_DIR)/runtime.c
 # ALVOS DOS TESTES
 # -----------------------------------------------------------------------------------------
 
-$(BUILD_DIR)/linux-parent.o: $(SRC_DIR)/linux-parent.c
+$(BUILD_DIR)/linux-parent.o: $(LINUX_SRC_DI)/linux-parent.c
 	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/linux-parent.o $?
 
-$(BUILD_DIR)/linux-child.o: $(SRC_DIR)/linux-child.c
+$(BUILD_DIR)/linux-child.o: $(LINUX_SRC_DI)/linux-child.c
 	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/linux-child.o $?
 
 $(BUILD_DIR)/linuxparent: $(BUILD_DIR) $(BUILD_DIR)/linux-parent.o

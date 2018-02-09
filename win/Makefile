@@ -9,6 +9,7 @@
 
 BUILD_DIR = ..\build\win
 SRC_DIR = ..\src
+WIN_SRC_DIR = ..\win
 API_SRC_DIR = .\api
 INCLUDE_DIR = ..\include
 
@@ -77,10 +78,10 @@ $(BUILD_DIR)\windows-runtime.obj: $(API_SRC_DIR)\runtime.c
 # ALVOS DOS TESTES
 # -----------------------------------------------------------------------------------------
 
-$(BUILD_DIR)\win-parent.obj: $(SRC_DIR)\win-parent.c
+$(BUILD_DIR)\win-parent.obj: $(WIN_SRC_DIR)\win-parent.c
 	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\win-parent.obj %s
 
-$(BUILD_DIR)\win-child.obj: $(SRC_DIR)\win-child.c
+$(BUILD_DIR)\win-child.obj: $(WIN_SRC_DIR)\win-child.c
 	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\win-child.obj %s
 
 $(BUILD_DIR)\winparent.exe: $(BUILD_DIR) $(BUILD_DIR)\win-parent.obj
