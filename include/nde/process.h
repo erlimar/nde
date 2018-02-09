@@ -6,25 +6,55 @@
 
 #include "nde.h"
 
-typedef struct nde_process_s
-{
-    nde_ptr input_handle;
-    nde_ptr output_handle;
-    nde_ptr error_handle;
-} nde_process;
-
-typedef nde_process *nde_process_p;
+typedef void *NdeProcess;
 
 /**
  * @constructor
- * Cria uma instância de <nde_process>
+ * Cria uma instância de <NdeProcess>
  */
-nde_process_p nde_process_create(void);
+NdeProcess nde_process_create(void);
 
 /**
  * @destructor
- * Libera a memória alocada por uma instância de <nde_process_p>
+ * Libera a memória alocada por uma instância de <NdeProcess>
  */
-void nde_process_destroy(nde_process_p);
+void nde_process_destroy(NdeProcess);
+
+// void nde_process_set_handles(nde_process_p,
+//                              nde_ptr,
+//                              nde_ptr,
+//                              nde_ptr);
+
+/**
+ * Obtem o valor do comando do processo
+ * 
+ * @return (char*) Comando do processo
+ */
+char *nde_process_get_command(NdeProcess);
+
+/**
+ * Atribui o valor do comando do processo
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @param {command} Valor do comando
+ */
+void nde_process_set_command(NdeProcess, char *);
+
+/**
+ * Obtem o valor do diretório atual do processo
+ * 
+ * @return (char*) Diretório atual do processo
+ */
+char *nde_process_get_current_directory(NdeProcess);
+
+/**
+ * Atribui o valor do diretório atual do processo
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @param {command} Valor diretório atual do processo
+ */
+void nde_process_set_current_directory(NdeProcess, char *);
+
+//void nde_process_start_and_wait(nde_process_p);
 
 #endif // _NDE_PROCESS_H_

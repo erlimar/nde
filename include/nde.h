@@ -6,7 +6,7 @@
 
 #include <stddef.h>
 
-#define nde_nullptr NULL;
+#define nde_nullptr NULL
 
 typedef unsigned char byte;
 typedef void *nde_ptr;

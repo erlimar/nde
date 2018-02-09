@@ -4,86 +4,23 @@
 #include <stdio.h>
 
 #include "nde/log.h"
+#include "nde/process.h"
 
 int main(int argc, char *argv[])
 {
-    printf("Configura log de nível crítico:\n");
-    {
-        LOG_LEVEL(NDE_LOG_LEVEL_CRITICAL);
+    NdeProcess p = nde_process_create();
 
-        TRCE("Warning message log.");
-        DBUG("Debug message log.");
-        INFO("Information message log.");
-        WARN("Warning message log.");
-        FAIL("Fail message log.");
-        CRIT("Critical message log.");
-        printf("\n");
-    }
+    nde_process_set_current_directory(p, ".\\");
+    printf("CD: %s\n", nde_process_get_current_directory(p));
 
-    printf("Configura log de nível falha:\n");
-    {
-        LOG_LEVEL(NDE_LOG_LEVEL_FAIL);
+    nde_process_set_current_directory(p, "C:\\Arquivos de Programas\\CMake\\bin");
+    printf("CD: %s\n", nde_process_get_current_directory(p));
 
-        TRCE("Warning message log.");
-        DBUG("Debug message log.");
-        INFO("Information message log.");
-        WARN("Warning message log.");
-        FAIL("Fail message log.");
-        CRIT("Critical message log.");
-        printf("\n");
-    }
+    nde_process_set_current_directory(p, "/usr/bin/");
+    printf("CD: %s\n", nde_process_get_current_directory(p));
 
-    printf("Configura log de nível alerta:\n");
-    {
-        LOG_LEVEL(NDE_LOG_LEVEL_WARNING);
-
-        TRCE("Warning message log.");
-        DBUG("Debug message log.");
-        INFO("Information message log.");
-        WARN("Warning message log.");
-        FAIL("Fail message log.");
-        CRIT("Critical message log.");
-        printf("\n");
-    }
-
-    printf("Configura // log de nível informação:\n");
-    {
-        LOG_LEVEL(NDE_LOG_LEVEL_INFORMATION);
-
-        TRCE("Warning message log.");
-        DBUG("Debug message log.");
-        INFO("Information message log.");
-        WARN("Warning message log.");
-        FAIL("Fail message log.");
-        CRIT("Critical message log.");
-        printf("\n");
-    }
-
-    printf("Configura log de nível depuração:\n");
-    {
-        LOG_LEVEL(NDE_LOG_LEVEL_DEBUG);
-
-        TRCE("Warning message log.");
-        DBUG("Debug message log.");
-        INFO("Information message log.");
-        WARN("Warning message log.");
-        FAIL("Fail message log.");
-        CRIT("Critical message log.");
-        printf("\n");
-    }
-
-    printf("Configura // log de todos os níveis:\n");
-    {
-        LOG_LEVEL(NDE_LOG_LEVEL_TRACE);
-
-        TRCE("Warning message log.");
-        DBUG("Debug message log.");
-        INFO("Information message log.");
-        WARN("Warning message log.");
-        FAIL("Fail message log.");
-        CRIT("Critical message log.");
-        printf("\n");
-    }
+    nde_process_set_current_directory(p, nde_nullptr);
+    printf("CD: %s\n", nde_process_get_current_directory(p));
 
     return 0;
 }
