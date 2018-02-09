@@ -5,3 +5,5 @@ Links úteis:
 * https://msdn.microsoft.com/en-us/library/windows/desktop/ms682499(v=vs.85).aspx
 * https://pt.stackoverflow.com/questions/116662/fork-no-windows
 * http://www.engr.iupui.edu/~dskim/downloadable/reference_Nmake.pdf
+
+* https://www.klebermota.eti.br/2013/03/11/usando-o-gcc-e-o-make-para-compilar-lincar-e-criar-aplicacoes-cc/

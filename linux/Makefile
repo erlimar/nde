@@ -1,36 +1,36 @@
 ## Copyright (c) E5R Development Team. All rights reserved.
 ## Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 # -----------------------------------------------------------------------------------------
-# Makefile para construir nde no Windows usando Microsoft NMAKE.
+# Makefile para construir nde no Linux usando GNU Make.
 #
 # Compiladores suportados:
-# - Microsoft Visual C++ Build Tools >= 2015
+# - GCC >= 4
 # -----------------------------------------------------------------------------------------
 
-BUILD_DIR = ..\build\win
-SRC_DIR = ..\src
-API_SRC_DIR = .\api
-INCLUDE_DIR = ..\include
+BUILD_DIR = ../build/linux
+SRC_DIR = ../src
+API_SRC_DIR = ./api
+INCLUDE_DIR = ../include
 
-TARGET = $(BUILD_DIR)\nde.exe
+TARGET = $(BUILD_DIR)/nde
 
-MKDIR = mkdir
-DEL = erase /F /Q
-RM = rmdir /S /Q
+MKDIR = mkdir -p
+DEL = rm -f
+RM = rm -f -d -r
 
-CC = cl.exe
-CC_FLAGS = /nologo /c /w -DDEBUG /I$(INCLUDE_DIR)
-LK = link.exe
-LK_FLAGS = /nologo /SUBSYSTEM:CONSOLE user32.lib
+CC = gcc
+CC_FLAGS = -x c -I$(INCLUDE_DIR) -c
+LK = gcc
+LK_FLAGS = 
 
 # -----------------------------------------------------------------------------------------
 # OBJETOS
 # -----------------------------------------------------------------------------------------
 
-OBJECTS = $(BUILD_DIR)\main.obj \
-	$(BUILD_DIR)\process.obj \
-	$(BUILD_DIR)\runtime.obj \
-	$(BUILD_DIR)\log.obj \
+OBJECTS = $(BUILD_DIR)/main.o \
+	$(BUILD_DIR)/process.o \
+	$(BUILD_DIR)/runtime.o \
+	$(BUILD_DIR)/log.o \
 
 # -----------------------------------------------------------------------------------------
 # ALVOS PRINCIPAIS
@@ -38,13 +38,13 @@ OBJECTS = $(BUILD_DIR)\main.obj \
 
 all: $(TARGET)
 
-wintests: $(BUILD_DIR)\winparent.exe $(BUILD_DIR)\winchild.exe
+linuxtests: $(BUILD_DIR)/linuxparent $(BUILD_DIR)/linuxchild
 
 clean: $(BUILD_DIR)
-	$(RM) $(BUILD_DIR)
+	 $(RM) $(BUILD_DIR)
 
 $(TARGET): $(BUILD_DIR) $(OBJECTS)
-	$(LK) $(LK_FLAGS) /OUT:$(TARGET) $(OBJECTS)
+	$(LK) $(LK_FLAGS) -o $(TARGET) $(OBJECTS)
 
 $(BUILD_DIR):
 	$(MKDIR) $(BUILD_DIR)
@@ -53,34 +53,34 @@ $(BUILD_DIR):
 # ALVOS DOS COMPONENTES NDE
 # -----------------------------------------------------------------------------------------
 
-$(BUILD_DIR)\main.obj: $(SRC_DIR)\main.c
-	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\main.obj %s
+$(BUILD_DIR)/main.o: $(SRC_DIR)/main.c
+	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/main.o $?
 
-$(BUILD_DIR)\process.obj: $(SRC_DIR)\process.c
-	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\process.obj %s
+$(BUILD_DIR)/process.o: $(SRC_DIR)/process.c
+	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/process.o $?
 
-$(BUILD_DIR)\log.obj: $(SRC_DIR)\log.c
-	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\log.obj %s
+$(BUILD_DIR)/log.o: $(SRC_DIR)/log.c
+	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/log.o $?
 
 # -----------------------------------------------------------------------------------------
 # ALVOS DA API WINDOWS PARA NDE
 # -----------------------------------------------------------------------------------------
 
-$(BUILD_DIR)\runtime.obj: $(API_SRC_DIR)\runtime.c
-	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\runtime.obj %s
+$(BUILD_DIR)/runtime.o: $(API_SRC_DIR)/runtime.c
+	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/runtime.o $?
 
 # -----------------------------------------------------------------------------------------
 # ALVOS DOS TESTES
 # -----------------------------------------------------------------------------------------
 
-$(BUILD_DIR)\win-parent.obj: $(SRC_DIR)\win-parent.c
-	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\win-parent.obj %s
+$(BUILD_DIR)/linux-parent.o: $(SRC_DIR)/linux-parent.c
+	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/linux-parent.o $?
 
-$(BUILD_DIR)\win-child.obj: $(SRC_DIR)\win-child.c
-	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\win-child.obj %s
+$(BUILD_DIR)/linux-child.o: $(SRC_DIR)/linux-child.c
+	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/linux-child.o $?
 
-$(BUILD_DIR)\winparent.exe: $(BUILD_DIR) $(BUILD_DIR)\win-parent.obj
-	$(LK) $(LK_FLAGS) /OUT:$(BUILD_DIR)\winparent.exe $(BUILD_DIR)\win-parent.obj
+$(BUILD_DIR)/linuxparent: $(BUILD_DIR) $(BUILD_DIR)/linux-parent.o
+	$(LK) $(LK_FLAGS) -o $(BUILD_DIR)/linuxparent $(BUILD_DIR)/linux-parent.o
 
-$(BUILD_DIR)\winchild.exe: $(BUILD_DIR) $(BUILD_DIR)\win-child.obj
-	$(LK) $(LK_FLAGS) /OUT:$(BUILD_DIR)\winchild.exe $(BUILD_DIR)\win-child.obj 
+$(BUILD_DIR)/linuxchild: $(BUILD_DIR) $(BUILD_DIR)/linux-child.o
+	$(LK) $(LK_FLAGS) -o $(BUILD_DIR)/linuxchild $(BUILD_DIR)/linux-child.o
