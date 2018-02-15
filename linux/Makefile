@@ -33,6 +33,7 @@ OBJECTS = $(BUILD_DIR)/main.o \
 	$(BUILD_DIR)/shared-runtime.o \
 	$(BUILD_DIR)/linux-runtime.o \
 	$(BUILD_DIR)/log.o \
+	$(BUILD_DIR)/string-list.o \
 
 # -----------------------------------------------------------------------------------------
 # ALVOS PRINCIPAIS
@@ -66,6 +67,9 @@ $(BUILD_DIR)/shared-runtime.o: $(SRC_DIR)/shared-runtime.c
 
 $(BUILD_DIR)/log.o: $(SRC_DIR)/log.c
 	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/log.o $?
+
+$(BUILD_DIR)/string-list.o: $(SRC_DIR)/string-list.c
+	$(CC) $(CC_FLAGS) -o $(BUILD_DIR)/string-list.o $?
 
 # -----------------------------------------------------------------------------------------
 # ALVOS DA API WINDOWS PARA NDE
