@@ -31,13 +31,12 @@ void nde_log_write(NdeByte, const char *, ...);
 /**
  * Atalhos para escrever mensagens de log
  */
-#define TRCE(msg, ...) nde_log_write(NDE_LOG_LEVEL_TRACE, msg, __VA_ARGS__)
-#define TRCE(msg, ...) nde_log_write(NDE_LOG_LEVEL_TRACE, msg, __VA_ARGS__)
-#define DBUG(msg, ...) nde_log_write(NDE_LOG_LEVEL_DEBUG, msg, __VA_ARGS__)
-#define INFO(msg, ...) nde_log_write(NDE_LOG_LEVEL_INFORMATION, msg, __VA_ARGS__)
-#define WARN(msg, ...) nde_log_write(NDE_LOG_LEVEL_WARNING, msg, __VA_ARGS__)
-#define FAIL(msg, ...) nde_log_write(NDE_LOG_LEVEL_FAIL, msg, __VA_ARGS__)
-#define CRIT(msg, ...) nde_log_write(NDE_LOG_LEVEL_CRITICAL, msg, __VA_ARGS__)
+#define TRCE(msg, ...) nde_log_write(NDE_LOG_LEVEL_TRACE, msg, ##__VA_ARGS__)
+#define DBUG(msg, ...) nde_log_write(NDE_LOG_LEVEL_DEBUG, msg, ##__VA_ARGS__)
+#define INFO(msg, ...) nde_log_write(NDE_LOG_LEVEL_INFORMATION, msg, ##__VA_ARGS__)
+#define WARN(msg, ...) nde_log_write(NDE_LOG_LEVEL_WARNING, msg, ##__VA_ARGS__)
+#define FAIL(msg, ...) nde_log_write(NDE_LOG_LEVEL_FAIL, msg, ##__VA_ARGS__)
+#define CRIT(msg, ...) nde_log_write(NDE_LOG_LEVEL_CRITICAL, msg, ##__VA_ARGS__)
 
 /**
  * Atalhos para configurar o mecanismo de log
