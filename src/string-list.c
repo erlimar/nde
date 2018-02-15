@@ -142,7 +142,8 @@ void _nde_string_list_init(_nde_string_list_p list)
 
 _nde_string_list_item_p _nde_string_list_item_create(char *value)
 {
-    _nde_string_list_item_p item = (_nde_string_list_item_p)nde_runtime_alloc_memory(sizeof(struct _nde_string_list_item_s));
+    NdePtrSize struct_size = sizeof(_nde_string_list_item);
+    _nde_string_list_item_p item = (_nde_string_list_item_p)nde_runtime_alloc_memory(struct_size);
 
     item->next = NdeNullPtr;
     item->value = value;
