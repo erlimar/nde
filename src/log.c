@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
 #include <stdio.h>
+#include <stdarg.h>
 
 #include "nde.h"
 #include "nde/log.h"
@@ -25,7 +26,7 @@ void nde_log_config_level(NdeByte level)
     _nde_log_config_level = level;
 }
 
-void nde_log_write(NdeByte level, const char *msg)
+void nde_log_write(NdeByte level, const char *msg, ...)
 {
     if (level > _nde_log_config_level)
         return;
@@ -54,5 +55,10 @@ void nde_log_write(NdeByte level, const char *msg)
         prefix = "TRCE";
     }
 
-    printf("%s: %s\n", prefix, msg);
+    va_list ap;
+
+    va_start(ap, msg);
+
+    printf("%s: ", prefix);
+    vprintf(msg, ap);
 }
