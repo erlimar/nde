@@ -20,7 +20,7 @@ DEL = rm -f
 RM = rm -f -d -r
 
 CC = gcc
-CC_FLAGS = -x c -I$(INCLUDE_DIR) -c
+CC_FLAGS = -std=c11 -x c -I$(INCLUDE_DIR) -c 
 LK = gcc
 LK_FLAGS = 
 

@@ -14,11 +14,13 @@ typedef struct _nde_string_list_item_s
 {
     char *value;
     struct _nde_string_list_item_s *next;
-};
+} _nde_string_list_item;
+
+typedef _nde_string_list_item *_nde_string_list_item_p;
 
 typedef struct _nde_string_list_s
 {
-    struct _nde_string_list_item_s *first_item;
+    _nde_string_list_item_p first_item;
 } _nde_string_list;
 
 typedef _nde_string_list *_nde_string_list_p;
@@ -27,7 +29,7 @@ typedef _nde_string_list *_nde_string_list_p;
 // Interface de métodos privados
 // -----------------------------
 void _nde_string_list_init(_nde_string_list_p list);
-struct _nde_string_list_item_s *_nde_string_list_item_create(char *);
+_nde_string_list_item_p _nde_string_list_item_create(char *);
 
 // ---------------------------------
 // Implementação de métodos públicos
@@ -62,7 +64,7 @@ int nde_string_list_get_size(NdeStringList list)
     _nde_string_list_p self = ((_nde_string_list_p)list);
 
     int size = 0;
-    struct _nde_string_list_item_s *item = self->first_item;
+    _nde_string_list_item_p item = self->first_item;
 
     while (item != NdeNullPtr)
     {
@@ -81,8 +83,8 @@ int nde_string_list_add(NdeStringList list, char *string)
     _nde_string_list_p self = ((_nde_string_list_p)list);
 
     int size = 0;
-    struct _nde_string_list_item_s *previous = NdeNullPtr;
-    struct _nde_string_list_item_s *last = self->first_item;
+    _nde_string_list_item_p previous = NdeNullPtr;
+    _nde_string_list_item_p last = self->first_item;
 
     while (last != NdeNullPtr)
     {
@@ -91,7 +93,7 @@ int nde_string_list_add(NdeStringList list, char *string)
         size++;
     }
 
-    struct _nde_string_list_item_s *next_item = _nde_string_list_item_create(string);
+    _nde_string_list_item_p next_item = _nde_string_list_item_create(string);
 
     if (previous == NdeNullPtr)
         self->first_item = next_item;
@@ -109,8 +111,8 @@ char *nde_string_list_get_item(NdeStringList list, int pos)
     _nde_string_list_p self = ((_nde_string_list_p)list);
 
     int count = 0;
-    struct _nde_string_list_item_s *find = NdeNullPtr;
-    struct _nde_string_list_item_s *last = self->first_item;
+    _nde_string_list_item_p find = NdeNullPtr;
+    _nde_string_list_item_p last = self->first_item;
 
     while (last != NdeNullPtr)
     {
@@ -135,12 +137,12 @@ char *nde_string_list_get_item(NdeStringList list, int pos)
 // ---------------------------------
 void _nde_string_list_init(_nde_string_list_p list)
 {
-    list->first_item = (struct _nde_string_list_item_s *)NdeNullPtr;
+    list->first_item = (_nde_string_list_item_p)NdeNullPtr;
 }
 
-struct _nde_string_list_item_s *_nde_string_list_item_create(char *value)
+_nde_string_list_item_p _nde_string_list_item_create(char *value)
 {
-    struct _nde_string_list_item_s *item = (struct _nde_string_list_item_s *)nde_runtime_alloc_memory(sizeof(struct _nde_string_list_item_s));
+    _nde_string_list_item_p item = (_nde_string_list_item_p)nde_runtime_alloc_memory(sizeof(struct _nde_string_list_item_s));
 
     item->next = NdeNullPtr;
     item->value = value;
