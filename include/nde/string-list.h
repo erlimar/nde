@@ -29,7 +29,7 @@ void nde_string_list_destroy(NdeStringList);
  * 
  * @return O tamanho da lista, ou -1 se houver um erro
  */
-int nde_string_list_length(NdeStringList);
+int nde_string_list_get_size(NdeStringList);
 
 /**
  * Obtém uma string da lista informando a posição
@@ -39,7 +39,7 @@ int nde_string_list_length(NdeStringList);
  * 
  * @return String na posição informada, ou NdeNullPtr se não existir
  */
-char *nde_string_list_get_by_position(NdeStringList, int);
+char *nde_string_list_get_item(NdeStringList, int);
 
 /**
  * Adiciona uma string no final dalista
@@ -57,6 +57,6 @@ int nde_string_list_add(NdeStringList, char *);
  * 
  * @return Tamanho da lista após a remoção, ou -1 se houver um erro
  */
-int nde_string_list_remove_by_position(NdeStringList, int);
+//int nde_string_list_remove_by_position(NdeStringList, int);
 
 #endif // _NDE_STRING_LIST_H_

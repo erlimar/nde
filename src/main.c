@@ -3,24 +3,25 @@
 
 #include <stdio.h>
 
-#include "nde/log.h"
-#include "nde/process.h"
+#include "nde/string-list.h"
 
 int main(int argc, char *argv[])
 {
-    NdeProcess p = nde_process_create();
+    NdeStringList list = nde_string_list_create();
 
-    nde_process_set_current_directory(p, ".\\");
-    printf("CD: %s\n", nde_process_get_current_directory(p));
+    int s1 = nde_string_list_add(list, "Valor 1");
+    int s2 = nde_string_list_add(list, "Valor 2");
+    int s3 = nde_string_list_add(list, "Valor 3");
+    int s4 = nde_string_list_add(list, "Valor 4");
 
-    nde_process_set_current_directory(p, "C:\\Arquivos de Programas\\CMake\\bin");
-    printf("CD: %s\n", nde_process_get_current_directory(p));
+    int size = nde_string_list_get_size(list);
 
-    nde_process_set_current_directory(p, "/usr/bin/");
-    printf("CD: %s\n", nde_process_get_current_directory(p));
+    printf("list->size: %d, s1: %d, s2: %d, s3: %d, s4: %d\n", size, s1, s2, s3, s4);
 
-    nde_process_set_current_directory(p, NdeNullPtr);
-    printf("CD: %s\n", nde_process_get_current_directory(p));
+    for (int i = 0; i < size; i++)
+    {
+        printf("  list[%d]: %s\n", i, nde_string_list_get_item(list, i));
+    }
 
     return 0;
 }
