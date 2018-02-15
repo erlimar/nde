@@ -5,39 +5,30 @@
 #include <string.h>
 
 #include "nde/string-list.h"
+#include "nde/process.h"
+#include "nde/log.h"
 #include "nde/api/runtime.h"
 
 int main(int argc, char *argv[])
 {
-    NdeStringList list = nde_string_list_create();
+    NdeProcess proc = nde_process_create();
 
-    //REPL
-    while (1)
-    {
-        char cmd[102];
+    nde_process_set_command(proc, "cmd.exe");
+    nde_process_set_current_directory(proc, "D:\\temp\\SystemZ");
 
-        printf("Informe um valor (vazio termina): ");
-        gets_s(&cmd, 1024);
+    printf("main(!)\n");
 
-        int length = strlen(cmd);
-        char *cmd_str = (char *)nde_runtime_alloc_memory(length + 1);
-        
-        strcpy(cmd_str, cmd);
-
-        if (strncmp(cmd_str, "", length) == 0)
-            break;
-
-        nde_string_list_add(list, cmd_str);
-    }
-
-    int size = nde_string_list_get_size(list);
-
-    printf("list->size: %d\n", size);
-
-    for (int i = 0; i < size; i++)
-    {
-        printf("  list[%d]: %s\n", i, nde_string_list_get_item(list, i));
-    }
+    DBUG("NdeProcess proc {\n");
+    DBUG("  input_handle: \"%d\",\n", nde_process_get_input_handle(proc));
+    DBUG("  output_handle: \"%d\",\n", nde_process_get_output_handle(proc));
+    DBUG("  error_handle: \"%d\",\n", nde_process_get_error_handle(proc));
+    DBUG("  command: \"%s\",\n", nde_process_get_command(proc));
+    DBUG("  current_directory: \"%s\",\n", nde_process_get_current_directory(proc));
+    DBUG("  command_args: {\n");
+    DBUG("  },\n");
+    DBUG("  command_env: {\n");
+    DBUG("  }\n");
+    DBUG("};\n");
 
     return 0;
 }

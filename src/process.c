@@ -5,6 +5,7 @@
 
 #include "nde.h"
 #include "nde/api/runtime.h"
+#include "nde/string-list.h"
 #include "nde/process.h"
 
 // --------------------------
@@ -17,8 +18,8 @@ typedef struct _nde_process_s
     NdePtr error_handle;
     NdePtr command;
     NdePtr current_directory;
-    // nde_string_list_p command_args;
-    // nde_string_list_p command_env;
+    NdeStringList command_args;
+    NdeStringList command_env;
 } _nde_process;
 
 typedef _nde_process *_nde_process_p;
@@ -56,11 +57,53 @@ void nde_process_destroy(NdeProcess p)
     // TODO: atribuir NULL ao ponteiro. usar NdeProcess &p
 }
 
+NdePtr nde_process_get_input_handle(NdeProcess process)
+{
+    _nde_process_p self = ((_nde_process_p)process);
+
+    return self->input_handle;
+}
+
+void nde_process_set_input_handle(NdeProcess process, NdePtr handle)
+{
+    _nde_process_p self = ((_nde_process_p)process);
+
+    self->input_handle = handle;
+}
+
+NdePtr nde_process_get_output_handle(NdeProcess process)
+{
+    _nde_process_p self = ((_nde_process_p)process);
+
+    return self->output_handle;
+}
+
+void nde_process_set_output_handle(NdeProcess process, NdePtr handle)
+{
+    _nde_process_p self = ((_nde_process_p)process);
+
+    self->output_handle = handle;
+}
+
+NdePtr nde_process_get_error_handle(NdeProcess process)
+{
+    _nde_process_p self = ((_nde_process_p)process);
+
+    return self->error_handle;
+}
+
+void nde_process_set_error_handle(NdeProcess process, NdePtr handle)
+{
+    _nde_process_p self = ((_nde_process_p)process);
+
+    self->error_handle = handle;
+}
+
 char *nde_process_get_command(NdeProcess process)
 {
     _nde_process_p self = ((_nde_process_p)process);
 
-    return _nde_process_get_string_field(self->command);
+    return _nde_process_get_string_field(&self->command);
 }
 
 void nde_process_set_command(NdeProcess process, char *command)
@@ -114,8 +157,8 @@ void _nde_process_init(_nde_process_p process)
     process->error_handle = NdeNullPtr;
     process->command = NdeNullPtr;
     process->current_directory = NdeNullPtr;
-    // process->command_args = NdeNullPtr;
-    // process->command_env = NdeNullPtr;
+    process->command_args = nde_string_list_create();
+    process->command_env = nde_string_list_create();
 }
 
 char *_nde_process_get_string_field(NdePtr *field)

@@ -20,10 +20,53 @@ NdeProcess nde_process_create(void);
  */
 void nde_process_destroy(NdeProcess);
 
-// void nde_process_set_handles(nde_process_p,
-//                              NdePtr,
-//                              NdePtr,
-//                              NdePtr);
+/**
+ * Atribui o handle para arquivo <input>
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @param {handle} Handle para arquivo
+ */
+void nde_process_set_input_handle(NdeProcess, NdePtr);
+
+/**
+ * Obtem o valor do handle para arquivo <input>
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @return (NdePtr) Handle do arquivo
+ */
+NdePtr nde_process_get_input_handle(NdeProcess);
+
+/**
+ * Atribui o handle para arquivo <output>
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @param {handle} Handle para arquivo
+ */
+void nde_process_set_output_handle(NdeProcess, NdePtr);
+
+/**
+ * Obtem o valor do handle para arquivo <output>
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @return (NdePtr) Handle do arquivo
+ */
+NdePtr nde_process_get_output_handle(NdeProcess);
+
+/**
+ * Atribui o handle para arquivo <error>
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @param {handle} Handle para arquivo
+ */
+void nde_process_set_error_handle(NdeProcess, NdePtr);
+
+/**
+ * Obtem o valor do handle para arquivo <error>
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @return (NdePtr) Handle do arquivo
+ */
+NdePtr nde_process_get_error_handle(NdeProcess);
 
 /**
  * Obtem o valor do comando do processo
