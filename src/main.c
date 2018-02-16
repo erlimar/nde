@@ -9,8 +9,13 @@
 #include "nde/log.h"
 #include "nde/api/runtime.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char *envp[])
 {
+    // for (int i = 0; envp!=NdeNullPtr && envp[i] != NdeNullPtr; i++)
+    // {
+    //     DBUG("%s\n", envp[i]);
+    // }
+
     NdeProcess proc = nde_process_create();
 
     nde_process_set_command(proc, "cmd.exe");
@@ -24,10 +29,17 @@ int main(int argc, char *argv[])
     DBUG("  error_handle: \"%d\",\n", nde_process_get_error_handle(proc));
     DBUG("  command: \"%s\",\n", nde_process_get_command(proc));
     DBUG("  current_directory: \"%s\",\n", nde_process_get_current_directory(proc));
+
     DBUG("  command_args: {\n");
     DBUG("  },\n");
+
     DBUG("  command_env: {\n");
+
+    // int env_size = nde_string_list_get_size(nde_process_get)
+    // for(int i = 0; i< nde_string_list_get_size())
+
     DBUG("  }\n");
+
     DBUG("};\n");
 
     return 0;

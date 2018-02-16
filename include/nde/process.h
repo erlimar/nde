@@ -98,6 +98,9 @@ char *nde_process_get_current_directory(NdeProcess);
  */
 void nde_process_set_current_directory(NdeProcess, char *);
 
+// int nde_process_get_env_size(NdeProcess);
+// char *nde_process_get_env(NdeProcess, int);
+
 //void nde_process_start_and_wait(nde_process_p);
 
 #endif // _NDE_PROCESS_H_
