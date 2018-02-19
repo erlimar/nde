@@ -108,8 +108,33 @@ void nde_process_set_current_directory(NdeProcess, char *);
 
 void nde_process_set_env_from_envp(NdeProcess, char *[]);
 
-// int nde_process_get_env_size(NdeProcess);
-// char *nde_process_get_env(NdeProcess, int);
+/**
+ * Obtém o tamanho da lista de variáveis de ambiente
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * 
+ * @return Tamanho da lista de variáveis de ambiente
+ */
+int nde_process_get_env_size(NdeProcess);
+
+/**
+ * Obtém o nome de uma variável de ambiente em determinada posição
+ * na lista
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @param {pos} Posição da chave na lista de variáveis
+ * @return Nome da chave, ou <NdeNulPtr> se não houver a chave
+ */
+char *nde_process_get_env_key(NdeProcess, int);
+
+/**
+ * Obtém o valor de uma variável de ambiente
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @param {env_name} Nome da variável de ambiente
+ * @return Valor da variável de ambiente, ou <NdeNulPtr> se não existir
+ */
+char *nde_process_get_env(NdeProcess, char *);
 
 //void nde_process_start_and_wait(nde_process_p);
 

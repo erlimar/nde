@@ -196,6 +196,58 @@ void nde_process_set_env_from_envp(NdeProcess process, char *envp[])
     }
 }
 
+int nde_process_get_env_size(NdeProcess process)
+{
+    if (process == NdeNullPtr)
+        return -1;
+
+    _nde_process_p self = ((_nde_process_p)process);
+
+    return nde_data_list_get_size(self->command_env);
+}
+
+char *nde_process_get_env_key(NdeProcess process, int pos)
+{
+    if (process == NdeNullPtr)
+        return NdeNullPtr;
+
+    _nde_process_p self = ((_nde_process_p)process);
+
+    _nde_process_str_kv_pair_p pair = nde_data_list_get_item(self->command_env, pos);
+
+    if (pair == NdeNullPtr)
+        return NdeNullPtr;
+
+    return pair->key;
+}
+
+char *nde_process_get_env(NdeProcess process, char *var_name)
+{
+    if (process == NdeNullPtr)
+        return NdeNullPtr;
+
+    _nde_process_p self = ((_nde_process_p)process);
+
+    int env_size = nde_data_list_get_size(self->command_env);
+    char *env_value = NdeNullPtr;
+
+    for (int i = 0; i < env_size; i++)
+    {
+        _nde_process_str_kv_pair_p pair = nde_data_list_get_item(self->command_env, i);
+
+        if (pair == NdeNullPtr)
+            break;
+
+        if (strcmp(pair->key, var_name) == 0)
+        {
+            env_value = pair->value;
+            break;
+        }
+    }
+
+    return env_value;
+}
+
 // ---------------------------------
 // Implementação de métodos privados
 // ---------------------------------

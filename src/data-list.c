@@ -108,7 +108,7 @@ int nde_data_list_add(NdeDataList list, NdePtr item)
 NdePtr nde_data_list_get_item(NdeDataList list, int pos)
 {
     if (list == NdeNullPtr || pos < 0)
-        return NDE_DATA_LIST_ERROR_RVALUE;
+        return NdeNullPtr;
 
     _nde_data_list_p self = ((_nde_data_list_p)list);
 
@@ -129,7 +129,7 @@ NdePtr nde_data_list_get_item(NdeDataList list, int pos)
     }
 
     if (find == NdeNullPtr)
-        return NDE_DATA_LIST_ERROR_RVALUE;
+        return NdeNullPtr;
 
     return find->value;
 }
