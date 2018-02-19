@@ -18,6 +18,19 @@ nde_runtime_alloc_memory(NdePtrSize size)
     return (NdePtr)ptr;
 }
 
+NdePtr
+nde_runtime_alloc_str_memory(NdePtrSize size)
+{
+    void *ptr = calloc(size + 1, sizeof(char));
+
+    if (ptr == NULL)
+    {
+        // TODO: Lançar erro!
+    }
+
+    return (NdePtr)ptr;
+}
+
 void nde_runtime_free_memory(NdePtr ptr)
 {
     if (ptr == NULL)

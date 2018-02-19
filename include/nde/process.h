@@ -98,6 +98,16 @@ char *nde_process_get_current_directory(NdeProcess);
  */
 void nde_process_set_current_directory(NdeProcess, char *);
 
+/**
+ * Atribui a lista de variáveis de ambiente do processo
+ * de acordo com o parâmetro envp da função <main>
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @param {envp} Referência as variáveis de ambiente da função <main>
+ */
+
+void nde_process_set_env_from_envp(NdeProcess, char *[]);
+
 // int nde_process_get_env_size(NdeProcess);
 // char *nde_process_get_env(NdeProcess, int);
 

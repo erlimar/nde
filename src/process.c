@@ -5,7 +5,8 @@
 
 #include "nde.h"
 #include "nde/api/runtime.h"
-#include "nde/string-list.h"
+#include "nde/log.h"
+#include "nde/data-list.h"
 #include "nde/process.h"
 
 // --------------------------
@@ -18,16 +19,27 @@ typedef struct _nde_process_s
     NdePtr error_handle;
     NdePtr command;
     NdePtr current_directory;
-    NdeStringList command_args;
-    NdeStringList command_env;
+    NdeDataList command_args;
+    NdeDataList command_env;
 } _nde_process;
 
 typedef _nde_process *_nde_process_p;
+
+typedef struct _nde_process_str_kv_pair_s
+{
+    char *key;
+    char *value;
+} _nde_process_str_kv_pair;
+
+typedef _nde_process_str_kv_pair *_nde_process_str_kv_pair_p;
 
 // -----------------------------
 // Interface de métodos privados
 // -----------------------------
 void _nde_process_init(_nde_process_p process);
+void _nde_process_clear_env_items(_nde_process_p process);
+void _nde_process_clear_args_items(_nde_process_p process);
+
 char *_nde_process_get_string_field(NdePtr *field);
 char *_nde_process_copy_string(char *value);
 
@@ -51,9 +63,17 @@ NdeProcess nde_process_create(void)
 /**
  * @destructor
  */
-void nde_process_destroy(NdeProcess p)
+void nde_process_destroy(NdeProcess process)
 {
-    nde_runtime_free_memory((void *)p);
+    _nde_process_p self = ((_nde_process_p)process);
+
+    _nde_process_clear_args_items(self);
+    _nde_process_clear_env_items(self);
+
+    nde_runtime_free_memory(self->command_args);
+    nde_runtime_free_memory(self->command_env);
+    nde_runtime_free_memory(self);
+
     // TODO: atribuir NULL ao ponteiro. usar NdeProcess &p
 }
 
@@ -141,6 +161,41 @@ void nde_process_set_current_directory(NdeProcess process, char *cd)
     self->current_directory = _nde_process_copy_string(cd);
 }
 
+void nde_process_set_env_from_envp(NdeProcess process, char *envp[])
+{
+    if (process == NdeNullPtr || envp == NdeNullPtr)
+        return;
+
+    _nde_process_p self = ((_nde_process_p)process);
+
+    _nde_process_clear_env_items(process);
+
+    for (int i = 0; envp != NdeNullPtr && envp[i] != NdeNullPtr; i++)
+    {
+        char *env_line = envp[i];
+        char *sep_p = strpbrk(env_line, "=");
+        char *key_str = NdeNullPtr;
+        char *value_str = NdeNullPtr;
+
+        if (sep_p)
+        {
+            int key_size = sep_p - env_line;
+
+            key_str = nde_runtime_alloc_str_memory(key_size);
+            strncpy(key_str, env_line, key_size);
+
+            value_str = _nde_process_copy_string(sep_p + 1);
+        }
+
+        _nde_process_str_kv_pair_p pair = nde_runtime_alloc_memory(sizeof(_nde_process_str_kv_pair));
+
+        pair->key = key_str;
+        pair->value = value_str;
+
+        nde_data_list_add(self->command_env, pair);
+    }
+}
+
 // ---------------------------------
 // Implementação de métodos privados
 // ---------------------------------
@@ -157,8 +212,43 @@ void _nde_process_init(_nde_process_p process)
     process->error_handle = NdeNullPtr;
     process->command = NdeNullPtr;
     process->current_directory = NdeNullPtr;
-    process->command_args = nde_string_list_create();
-    process->command_env = nde_string_list_create();
+    process->command_args = nde_data_list_create();
+    process->command_env = nde_data_list_create();
+}
+
+void _nde_process_clear_env_items(_nde_process_p process)
+{
+    if (process == NdeNullPtr || process->command_env == NdeNullPtr)
+        return;
+
+    int items_size = nde_data_list_get_size(process->command_env);
+
+    for (int i = 0; i < items_size; i++)
+    {
+        _nde_process_str_kv_pair_p item_ptr = (_nde_process_str_kv_pair_p)nde_data_list_get_item(process->command_env, i);
+
+        if (item_ptr != NdeNullPtr)
+        {
+            nde_runtime_free_memory(item_ptr->key);
+            nde_runtime_free_memory(item_ptr->value);
+        }
+
+        nde_runtime_free_memory(item_ptr);
+    }
+}
+
+void _nde_process_clear_args_items(_nde_process_p process)
+{
+    if (process == NdeNullPtr || process->command_args == NdeNullPtr)
+        return;
+
+    int args_size = nde_data_list_get_size(process->command_args);
+
+    for (int i = 0; i < args_size; i++)
+    {
+        NdePtr item_ptr = nde_data_list_get_item(process->command_args, i);
+        nde_runtime_free_memory(item_ptr);
+    }
 }
 
 char *_nde_process_get_string_field(NdePtr *field)
@@ -180,9 +270,9 @@ char *_nde_process_copy_string(char *value)
 
     NdePtrSize string_size = strlen(value);
 
-    char *result = nde_runtime_alloc_memory(string_size + 1);
+    char *result = nde_runtime_alloc_str_memory(string_size);
 
-    strcpy(result, value);
+    strncpy(result, value, string_size);
 
     return result;
 }
