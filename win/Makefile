@@ -33,7 +33,7 @@ OBJECTS = $(BUILD_DIR)\main.obj \
 	$(BUILD_DIR)\shared-runtime.obj \
 	$(BUILD_DIR)\windows-runtime.obj \
 	$(BUILD_DIR)\log.obj \
-	$(BUILD_DIR)\string-list.obj \
+	$(BUILD_DIR)\data-list.obj \
 
 # -----------------------------------------------------------------------------------------
 # ALVOS PRINCIPAIS
@@ -68,8 +68,8 @@ $(BUILD_DIR)\shared-runtime.obj: $(SRC_DIR)\shared-runtime.c
 $(BUILD_DIR)\log.obj: $(SRC_DIR)\log.c
 	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\log.obj %s
 
-$(BUILD_DIR)\string-list.obj: $(SRC_DIR)\string-list.c
-	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\string-list.obj %s
+$(BUILD_DIR)\data-list.obj: $(SRC_DIR)\data-list.c
+	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\data-list.obj %s
 
 # -----------------------------------------------------------------------------------------
 # ALVOS DA API WINDOWS PARA NDE
