@@ -99,13 +99,41 @@ char *nde_process_get_current_directory(NdeProcess);
 void nde_process_set_current_directory(NdeProcess, char *);
 
 /**
+ * Atribui a lista de argumentos do processo
+ * de acordo com os parâmetros argc e argv da função <main>
+ * descartando o primeiro argumento.
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @param {argc} Total de argumentos da função <main>
+ * @param {argv} Referência dos argumentos da função <main>
+ */
+void nde_process_set_args_from_argv(NdeProcess, int, char *[]);
+
+/**
+ * Obtém o tamanho da lista de argumentos
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * 
+ * @return Tamanho da lista de argumentos
+ */
+int nde_process_get_args_size(NdeProcess);
+
+/**
+ * Obtém o valor de um argumento em determinada posição na lista
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * @param {pos} Posição do argumento na lista
+ * @return Valor do argumento, ou <NdeNulPtr> se não houver
+ */
+char *nde_process_get_arg(NdeProcess, int);
+
+/**
  * Atribui a lista de variáveis de ambiente do processo
  * de acordo com o parâmetro envp da função <main>
  * 
  * @param {process} Instância de <NdeProcess>
- * @param {envp} Referência as variáveis de ambiente da função <main>
+ * @param {envp} Referência das variáveis de ambiente da função <main>
  */
-
 void nde_process_set_env_from_envp(NdeProcess, char *[]);
 
 /**

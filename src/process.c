@@ -161,6 +161,56 @@ void nde_process_set_current_directory(NdeProcess process, char *cd)
     self->current_directory = _nde_process_copy_string(cd);
 }
 
+void nde_process_set_args_from_argv(NdeProcess process, int argc, char *argv[])
+{
+    if (process == NdeNullPtr || --argc < 1 || ++argv == NdeNullPtr)
+        return;
+
+    _nde_process_p self = ((_nde_process_p)process);
+
+    _nde_process_clear_args_items(process);
+
+    for (int a = 0; a < argc && argv[a] != NdeNullPtr; a++)
+    {
+        char *arg_value = _nde_process_copy_string(argv[a]);
+
+        if (!arg_value)
+            break;
+
+        // TODO: Processes argument
+
+        nde_data_list_add(self->command_args, arg_value);
+    }
+}
+
+int nde_process_get_args_size(NdeProcess process)
+{
+    if (process == NdeNullPtr)
+        return -1;
+
+    _nde_process_p self = ((_nde_process_p)process);
+
+    return nde_data_list_get_size(self->command_args);
+}
+
+char *nde_process_get_arg(NdeProcess process, int pos)
+{
+    if (process == NdeNullPtr || pos < 0)
+        return (char *)NdeNullPtr;
+
+    _nde_process_p self = ((_nde_process_p)process);
+
+    if (self->command_args == NdeNullPtr)
+        return (char *)NdeNullPtr;
+
+    // char *arg_value = nde_data_list_get_item(self->command_args, pos);
+
+    // DBUG("arg_value: %s\n", arg_value);
+    // DBUG("X: %s\n", nde_data_list_get_item(self->command_args, pos));
+
+    return nde_data_list_get_item(self->command_args, pos);
+}
+
 void nde_process_set_env_from_envp(NdeProcess process, char *envp[])
 {
     if (process == NdeNullPtr || envp == NdeNullPtr)

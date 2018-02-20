@@ -11,17 +11,17 @@ int main(int argc, char *argv[], char *envp[])
 {
     NdeProcess process = nde_process_create();
 
-    nde_process_set_env_from_envp(process, envp);
+    nde_process_set_args_from_argv(process, argc, argv);
 
-    int env_size = nde_process_get_env_size(process);
+    int args_size = nde_process_get_args_size(process);
 
-    DBUG("env_size: %d\n", env_size);
+    DBUG("args_size: %d\n", args_size);
 
-    for (int i = 0; i < env_size; i++)
+    for (int i = 0; i < args_size; i++)
     {
-        char *env_key = nde_process_get_env_key(process, i);
-        char *env_value = nde_process_get_env(process, env_key);
-        DBUG("  [%d]: {%s} => {%s}\n", i, env_key, env_value);
+        char *arg_value = nde_process_get_arg(process, i);
+        
+        DBUG("arg[%d], %s\n", i, arg_value);
     }
 
     nde_process_destroy(process);
