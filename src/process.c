@@ -334,12 +334,11 @@ void _nde_process_init(_nde_process_p process)
 #ifdef NDE_LINUX
         long config_max = pathconf(".", NDE_MAX_PATH);
         
-        if (max_path == -1)
-            max_path = 1024;
-        else if (max_path > 10240)
-            max_path = 10240;
-        else
-            max_path = config_max;
+        max_path = config_max == -1
+            ? 1024
+            : config_max > 10240
+            ? 10240
+            : config_max;
 #endif
 
         _nde_process_initial_cwd = (char *)nde_runtime_alloc_str_memory(max_path - 1);
