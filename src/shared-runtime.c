@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "nde/api/runtime.h"
+#include "nde/log.h"
 
 NdePtr
 nde_runtime_alloc_memory(NdePtrSize size)
@@ -13,6 +14,9 @@ nde_runtime_alloc_memory(NdePtrSize size)
     if (ptr == NULL)
     {
         // TODO: Lançar erro!
+        WARN("nde_runtime_alloc_memory/malloc return NULL");
+
+        return NdeNullPtr;
     }
 
     return (NdePtr)ptr;
@@ -26,6 +30,9 @@ nde_runtime_alloc_str_memory(NdePtrSize size)
     if (ptr == NULL)
     {
         // TODO: Lançar erro!
+        WARN("nde_runtime_alloc_str_memory/calloc return NULL");
+
+        return NdeNullPtr;
     }
 
     return (NdePtr)ptr;
@@ -33,7 +40,7 @@ nde_runtime_alloc_str_memory(NdePtrSize size)
 
 void nde_runtime_free_memory(NdePtr ptr)
 {
-    if (ptr == NULL)
+    if (ptr == NdeNullPtr)
         return;
 
     free((void *)ptr);
