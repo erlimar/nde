@@ -216,11 +216,6 @@ char *nde_process_get_arg(NdeProcess process, int pos)
     if (self->command_args == NdeNullPtr)
         return (char *)NdeNullPtr;
 
-    // char *arg_value = nde_data_list_get_item(self->command_args, pos);
-
-    // DBUG("arg_value: %s\n", arg_value);
-    // DBUG("X: %s\n", nde_data_list_get_item(self->command_args, pos));
-
     return nde_data_list_get_item(self->command_args, pos);
 }
 
@@ -337,15 +332,15 @@ void _nde_process_init(_nde_process_p process)
         int max_path = NDE_MAX_PATH;
 
 #ifdef NDE_LINUX
-        long path_max;
-        path_max = pathconf(".", NDE_MAX_PATH);
+        long config_max;
+        config_max = pathconf(".", NDE_MAX_PATH);
         
         if (max_path == -1)
             max_path = 1024;
         else if (max_path > 10240)
             max_path = 10240;
         else
-            max_path = path_max;
+            max_path = config_max;
 #endif
 
         _nde_process_initial_cwd = (char *)nde_runtime_alloc_str_memory(max_path - 1);
