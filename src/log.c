@@ -60,4 +60,5 @@ void nde_log_write(NdeByte level, const char *msg, ...)
     va_start(ap, msg);
     printf("%s: ", prefix);
     vprintf(msg, ap);
+    printf("\n");
 }
