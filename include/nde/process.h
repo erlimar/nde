@@ -164,6 +164,14 @@ char *nde_process_get_env_key(NdeProcess, int);
  */
 char *nde_process_get_env(NdeProcess, char *);
 
-//void nde_process_start_and_wait(nde_process_p);
+/**
+ * Inicia a execução de um processo e aguarda
+ * sua finalização.
+ * 
+ * @param {process} Instância de <NdeProcess>
+ * 
+ * @return Código de Saída (ExitCode) do processo
+ */
+//int nde_process_start_and_wait(NdeProcess);
 
 #endif // _NDE_PROCESS_H_

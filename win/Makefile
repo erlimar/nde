@@ -20,7 +20,7 @@ DEL = erase /F /Q
 RM = rmdir /S /Q
 
 CC = cl.exe
-CC_FLAGS = /nologo /c /w -DDEBUG /I$(INCLUDE_DIR)
+CC_FLAGS = /nologo /c /w -DNDE_BUILD_ON_WINDOWS -DDEBUG /I$(INCLUDE_DIR)
 LK = link.exe
 LK_FLAGS = /nologo /SUBSYSTEM:CONSOLE
 

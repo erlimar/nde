@@ -20,7 +20,7 @@ DEL = rm -f
 RM = rm -f -d -r
 
 CC = gcc
-CC_FLAGS = -std=c11 -x c -D DEBUG -I$(INCLUDE_DIR) -c 
+CC_FLAGS = -std=c11 -x c -D NDE_BUILD_ON_LINUX -D DEBUG -I$(INCLUDE_DIR) -c 
 LK = gcc
 LK_FLAGS = 
 

@@ -3,6 +3,14 @@
 
 #include <string.h>
 
+#ifdef NDE_WINDOWS
+#include <direct.h>
+#endif
+
+#ifdef NDE_LINUX
+#include <unistd.h>
+#endif
+
 #include "nde.h"
 #include "nde/api/runtime.h"
 #include "nde/log.h"
@@ -32,6 +40,11 @@ typedef struct _nde_process_str_kv_pair_s
 } _nde_process_str_kv_pair;
 
 typedef _nde_process_str_kv_pair *_nde_process_str_kv_pair_p;
+
+// -----------------------------
+// Variáveis privadas
+// -----------------------------
+char *_nde_process_initial_cwd = NdeNullPtr;
 
 // -----------------------------
 // Interface de métodos privados
@@ -298,6 +311,16 @@ char *nde_process_get_env(NdeProcess process, char *var_name)
     return env_value;
 }
 
+int nde_process_start_and_wait(NdeProcess process)
+{
+    if (process == NdeNullPtr)
+        return -1;
+
+    _nde_process_p self = ((_nde_process_p)process);
+
+    return 1;
+}
+
 // ---------------------------------
 // Implementação de métodos privados
 // ---------------------------------
@@ -309,11 +332,36 @@ char *nde_process_get_env(NdeProcess process, char *var_name)
  */
 void _nde_process_init(_nde_process_p process)
 {
+    if (_nde_process_initial_cwd == NdeNullPtr)
+    {
+        int max_path = NDE_MAX_PATH;
+
+#ifdef NDE_LINUX
+        long path_max;
+        path_max = pathconf(".", NDE_MAX_PATH);
+        
+        if (max_path == -1)
+            max_path = 1024;
+        else if (max_path > 10240)
+            max_path = 10240;
+        else
+            max_path = path_max;
+#endif
+
+        _nde_process_initial_cwd = (char *)nde_runtime_alloc_str_memory(max_path - 1);
+
+        if (_nde_process_initial_cwd == NdeNullPtr)
+            WARN("_nde_process_init/nde_runtime_alloc_str_memory return NULL");
+
+        if (_nde_process_initial_cwd != NdeNullPtr)
+            getcwd(_nde_process_initial_cwd, max_path);
+    }
+
     process->input_handle = NdeNullPtr;
     process->output_handle = NdeNullPtr;
     process->error_handle = NdeNullPtr;
     process->command = NdeNullPtr;
-    process->current_directory = NdeNullPtr;
+    process->current_directory = _nde_process_initial_cwd;
     process->command_args = nde_data_list_create();
     process->command_env = nde_data_list_create();
 }
