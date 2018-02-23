@@ -7,11 +7,11 @@
 # - GCC >= 4
 # -----------------------------------------------------------------------------------------
 
-BUILD_DIR = ../build/linux
-SRC_DIR = ../src
-LINUX_SRC_DI = ./
-API_SRC_DIR = ./api
-INCLUDE_DIR = ../include
+BUILD_DIR = ./build/linux
+SRC_DIR = ./src
+LINUX_SRC_DI = ./platform/linux
+API_SRC_DIR = ./platform/linux/api
+INCLUDE_DIR = ./include
 
 TARGET = $(BUILD_DIR)/nde
 

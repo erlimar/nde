@@ -7,11 +7,11 @@
 # - Microsoft Visual C++ Build Tools >= 2015
 # -----------------------------------------------------------------------------------------
 
-BUILD_DIR = ..\build\win
-SRC_DIR = ..\src
-WIN_SRC_DIR = ..\win
-API_SRC_DIR = .\api
-INCLUDE_DIR = ..\include
+BUILD_DIR = .\build\win32
+SRC_DIR = .\src
+WIN_SRC_DIR = .\platform\win32
+API_SRC_DIR = .\platform\win32\api
+INCLUDE_DIR = .\include
 
 TARGET = $(BUILD_DIR)\nde.exe
 
@@ -89,7 +89,7 @@ $(BUILD_DIR)\win-child.obj: $(WIN_SRC_DIR)\win-child.c
 	$(CC) $(CC_FLAGS) /Fo$(BUILD_DIR)\win-child.obj %s
 
 $(BUILD_DIR)\winparent.exe: $(BUILD_DIR) $(BUILD_DIR)\win-parent.obj
-	$(LK) $(LK_FLAGS) /OUT:$(BUILD_DIR)\winparent.exe $(BUILD_DIR)\win-parent.obj
+	$(LK) $(LK_FLAGS) /OUT:$(BUILD_DIR)\winparent.exe $(BUILD_DIR)\win-parent.obj user32.lib
 
 $(BUILD_DIR)\winchild.exe: $(BUILD_DIR) $(BUILD_DIR)\win-child.obj
 	$(LK) $(LK_FLAGS) /OUT:$(BUILD_DIR)\winchild.exe $(BUILD_DIR)\win-child.obj 

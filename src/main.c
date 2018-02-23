@@ -46,7 +46,7 @@ int main(int argc, char *argv[], char *envp[])
 
         printf("    [%s] = {%s}\n", env_key, env_value);
 
-        if (i >= 5)
+        if (i >= 3)
         {
             printf("    [...]\n");
             break;
