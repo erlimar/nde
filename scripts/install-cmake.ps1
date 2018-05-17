@@ -60,24 +60,6 @@ function Get-WebFile
     $wc.DownloadFile($Url, $Path)
 }
 
-function Get-WebString
-{
-    param (
-        [string] $Url
-    )
-    
-    $wc = New-Object System.Net.WebClient
-	
-	# Credencials
-	$wc.UseDefaultCredentials = $true
-	
-	# Proxy
-	$wc.Proxy = [System.Net.WebRequest]::DefaultWebProxy
-	$wc.Proxy.Credentials = [System.Net.CredentialCache]::DefaultNetworkCredentials
-	
-	return $wc.DownloadString($Url)
-}
-
 function Get-CMakeFileUrl
 {
 	$fileNameOriginal = "cmake-${Version}-${windowsArch}-${processorArch}.zip"
