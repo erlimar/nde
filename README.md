@@ -40,7 +40,7 @@ cd build
 ./.cmake/bin/cmake --build .
 ```
 
-Isso é o suficiente para gerar o executável `./build/linux/nde`!
+Isso é o suficiente para gerar o executável `./build/nde`!
 
 ## Construindo no macOS
 
