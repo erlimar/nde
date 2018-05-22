@@ -1,15 +1,17 @@
 #!/bin/sh
 
 pwd=$(pwd)
+base_dir="$pwd/.build-deps"
+tmp_dir="$base_dir/tmp"
+
 cmake_version="3.1.0"
-cmake_base_dir="$pwd/.cmake"
-cmake="$cmake_base_dir/bin/cmake"
+cmake_bin="$base_dir/bin/cmake"
 install_cmake="$pwd/scripts/install-cmake.sh"
 
-if [ ! -d $cmake_base_dir ]; then
-    mkdir $cmake_base_dir -p
+if [ ! -d $tmp_dir ]; then
+    mkdir $tmp_dir -p
 fi
 
-if [ ! -f $cmake ]; then
-    $install_cmake --version $cmake_version --install-path $cmake_base_dir
+if [ ! -f $cmake_bin ]; then
+    $install_cmake --version $cmake_version --install-path $base_dir --download-path $tmp_dir
 fi

@@ -2,15 +2,18 @@
 
 param (
 	[string] $Version = $(throw "-Version is required."),
-	[string] $InstallPath = $(throw "-InstallPath is required.")
+	[string] $InstallPath = $(throw "-InstallPath is required."),
+    [string] $DownloadPath = ""
 )
 
-if($InstallPath.StartsWith("./")) {
-	$InstallPath = $InstallPath.replace("./", "$pwd/")
-}
+if($InstallPath.StartsWith("./")) { $InstallPath = $InstallPath.replace("./", "$pwd/") }
+if($InstallPath.StartsWith(".\")) { $InstallPath = $InstallPath.replace(".\", "$pwd\") }
 
-if($InstallPath.StartsWith(".\")) {
-	$InstallPath = $InstallPath.replace(".\", "$pwd\")
+if("${DownloadPath}" -eq "") {
+    $DownloadPath = $InstallPath
+} else {
+    if($DownloadPath.StartsWith("./")) { $DownloadPath = $DownloadPath.replace("./", "$pwd/") }
+    if($DownloadPath.StartsWith(".\")) { $DownloadPath = $DownloadPath.replace(".\", "$pwd\") }
 }
 
 $InstallPath = [System.IO.Path]::GetFullPath($InstallPath)
@@ -210,8 +213,8 @@ if($cmakeZip.Count -eq 0) {
 $cmakeUrl = $cmakeZip[1]
 $cmakeFileName = $cmakeZip[0]
 $cmakeDirName = [System.IO.path]::GetFileNameWithoutExtension($cmakeFileName)
-$cmakeFilePath = [System.IO.Path]::Combine($InstallPath, $cmakeFileName)
-$cmakeDirPath = [System.IO.Path]::Combine($InstallPath, $cmakeDirName)
+$cmakeFilePath = [System.IO.Path]::Combine($DownloadPath, $cmakeFileName)
+$cmakeDirPath = [System.IO.Path]::Combine($DownloadPath, $cmakeDirName)
 $cmakeBinFolderPath = [System.IO.Path]::Combine($InstallPath, "bin")
 $cmakeBinPath = [System.IO.Path]::Combine($cmakeBinFolderPath, "cmake.exe")
 
@@ -222,7 +225,7 @@ $cmakeBinPath = [System.IO.Path]::Combine($cmakeBinFolderPath, "cmake.exe")
 Get-WebFile -Url $cmakeUrl -Path $cmakeFilePath
 
 " -> Extracting $cmakeFileName" | write-host
-Extract-ZipFile -FilePath $cmakeFilePath -DirPath $InstallPath
+Extract-ZipFile -FilePath $cmakeFilePath -DirPath $DownloadPath
 
 " -> Moving install files..." | write-host
 Get-ChildItem -Path $cmakeDirPath -Recurse -Directory | Move-Item -Destination $InstallPath

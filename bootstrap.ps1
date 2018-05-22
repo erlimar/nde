@@ -1,15 +1,17 @@
 #Requires -Version 2
 
+$baseDir = "$pwd\.build-deps"
+$tmpDir = "$baseDir\tmp"
+
 $cmakeVersion = "3.1.0"
-$cmakeBaseDir = "$pwd\.cmake"
-$cmake = "$cmakeBaseDir\bin\cmake.exe"
+$cmakeBin = "$baseDir\bin\cmake.exe"
 $installCmake = "$pwd\scripts\install-cmake.ps1"
 
-if(!(Test-Path $cmakeBaseDir)) {
-    New-Item -Type Directory $cmakeBaseDir | Out-Null
+if(!(Test-Path $tmpDir)) {
+    New-Item -Type Directory $tmpDir | Out-Null
 }
 
-if (!(Test-Path $cmake))
+if (!(Test-Path $cmakeBin))
 {
-    & $installCmake -Version $cmakeVersion -InstallPath $cmakeBaseDir
+    & $installCmake -Version $cmakeVersion -InstallPath $baseDir -DownloadPath $tmpDir
 }
