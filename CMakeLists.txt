@@ -3,6 +3,25 @@ cmake_minimum_required (VERSION 3.1 FATAL_ERROR)
 project (nde)
 
 # ---------------------------------
+# Pré-requisitos
+# ---------------------------------
+set(CMAKE_PREFIX_PATH "${PROJECT_SOURCE_DIR}/.build-deps")
+
+set(REQUIRED_LIBS)
+
+find_package(CURL REQUIRED)
+
+if(CURL_FOUND)
+  #INCLUDE_DIRECTORIES(${CURL_INCLUDE_DIR})
+  #SET(REQUIRED_LIBS ${REQUIRED_LIBS} ${CURL_LIBRARIES} )
+  message(WARNING "Found the CURL library and development files.")
+  message(WARNING "  -> CURL_INCLUDE_DIR: ${CURL_INCLUDE_DIR}")
+  message(WARNING "  -> CURL_LIBRARIES: ${CURL_LIBRARIES}")
+else(CURL_FOUND)
+  message(FATAL_ERROR "Could not find the CURL library and development files.")
+endif(CURL_FOUND)
+
+# ---------------------------------
 # Versão
 # ---------------------------------
 file(READ version.txt versionText)
@@ -30,6 +49,10 @@ set(SRCS_OBJ
     src/shared-runtime.c
 )
 
+set(SRCS_HTTPS
+    src/https.c
+)
+
 if(UNIX)
     add_definitions(-DNDE_BUILD_ON_LINUX)
     set(SRCS_OBJ
@@ -55,11 +78,12 @@ endif()
 # ---------------------------------
 add_library(nde_objects OBJECT ${SRCS_OBJ})
 add_executable(nde $<TARGET_OBJECTS:nde_objects> src/main.c)
+add_executable(https ${SRCS_HTTPS})
 
 # ---------------------------------
 # Arquivos da instalação
 # ---------------------------------
-install(TARGETS  nde
+install(TARGETS  nde https
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib)
 
