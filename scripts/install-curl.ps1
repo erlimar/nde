@@ -4,7 +4,8 @@ param (
 	[string] $Version = $(throw "-Version is required."),
 	[string] $InstallPath = $(throw "-InstallPath is required."),
     [string] $DownloadPath = "",
-    [switch] $Static = $false
+	[switch] $BuildStatic = $false,
+	[switch] $BuildExe = $false
 )
 
 if($InstallPath.StartsWith("./")) { $InstallPath = $InstallPath.replace("./", "$pwd/") }
@@ -146,6 +147,7 @@ if($curlZip.Count -eq 0) {
 	throw "CURL v$Version not found!"
 }
 
+$CURLLogFilePath = "$pwd\curl-build.log"
 $CURLUrl = $curlZip[1]
 $CURLFileName = $curlZip[0]
 $CURLDirName = [System.IO.path]::GetFileNameWithoutExtension($CURLFileName)
@@ -153,35 +155,58 @@ $CURLFilePath = [System.IO.Path]::Combine($DownloadPath, $CURLFileName)
 $CURLDirPath = [System.IO.Path]::Combine($DownloadPath, $CURLDirName)
 $CURLBinFolderPath = [System.IO.Path]::Combine($InstallPath, "bin")
 $CURLBinPath = [System.IO.Path]::Combine($CURLBinFolderPath, "curl.exe")
-
-$CURLBuildPath = [System.IO.Path]::Combine($CURLDirPath, "winbuild2")
-$CURLBuildArtifactsPath = [System.IO.Path]::Combine($CURLDirPath, "builds")
+$CURLBuildPath = [System.IO.Path]::Combine($CURLDirPath, "build")
 
 "Installing CURL v$Version..." | Write-Host
 "-----------------------------" | Write-Host
 
-" -> Downloading $CURLUrl..." | Write-Host
-Get-WebFile -Url $CURLUrl -Path $CURLFilePath
+if(!(Test-Path $CURLFilePath)) {
+	" -> Downloading $CURLUrl..." | Write-Host
+	Get-WebFile -Url $CURLUrl -Path $CURLFilePath
+}
 
-" -> Extracting $CURLFileName" | Write-Host
-Extract-ZipFile -FilePath $CURLFilePath -DirPath $DownloadPath
+if(!(Test-Path $CURLDirPath)) {
+	" -> Extracting $CURLFileName" | Write-Host
+	Extract-ZipFile -FilePath $CURLFilePath -DirPath $DownloadPath
+}
 
 " -> Building source (this may take a while.)..." | Write-Host
 if (!(Test-Path $CURLBuildPath)) {
     New-Item -Type Directory $CURLBuildPath
 }
-Push-Location $CURLBuildPath
-if($Static) {
-    & cmake -G "NMake Makefiles" .. -DCMAKE_CONFIGURATION=Release -DCMAKE_INSTALL_PREFIX=$InstallPath -DCURL_STATICLIB=ON
-}else{
-    & cmake -G "NMake Makefiles" .. -DCMAKE_CONFIGURATION=Release -DCMAKE_INSTALL_PREFIX=$InstallPath
+
+if($BuildExe) {
+	$buildExeParam = "BUILD_CURL_EXE=ON"
+} else {
+	$buildExeParam = "BUILD_CURL_EXE=OFF"
 }
-& nmake install
+
+if($BuildStatic) {
+	$buildStaticParam = "CURL_STATICLIB=ON"
+} else {
+	$buildStaticParam = "CURL_STATICLIB=OFF"
+}
+
+Push-Location $CURLBuildPath
+cmake -G "NMake Makefiles" "$CURLDirPath" `
+      "`"-DCMAKE_BUILD_TYPE=Release`"" `
+      "`"-DCMAKE_INSTALL_PREFIX=$InstallPath`"" `
+      "`"-D$buildExeParam`"" `
+      "`"-D$buildStaticParam`"" `
+      "`"-DHTTP_ONLY=ON`"" `
+      "`"-DCMAKE_USE_WINSSL=ON`"" `
+      "`"-DCURL_ZLIB=OFF`"" `
+	  "`"-DBUILD_TESTING=OFF`"" > $CURLLogFilePath
+if(!($LastExitCode)) {
+	nmake install > $CURLLogFilePath
+}
 Pop-Location
 
-" -> Removing temporary files..." | Write-Host
-Remove-Item $CURLDirPath -Force -Recurse
-Remove-Item $CURLFilePath -Force
+if(!($LastExitCode)) {
+	" -> Removing temporary files..." | Write-Host
+	Remove-Item $CURLDirPath -Force -Recurse
+	Remove-Item $CURLFilePath -Force
+}
 
 if(!(Test-Path $CURLBinPath)) {
 	throw "CURL v$Version install fail!"
