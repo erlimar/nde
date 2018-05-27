@@ -242,7 +242,3 @@ if(!(Test-Path $cmakeBinPath)) {
 "-----------------------------" | write-host
 "CMake v$Version successfully install!" | write-host
 "" | write-host
-"Add ""$cmakeBinFolderPath"" to PATH!" | write-host
-' - PS : $env:Path = "' + $cmakeBinFolderPath + ';${env:Path}"' | write-host
-' - CMD: set PATH="'    + $cmakeBinFolderPath + ';%PATH%"' | write-host
-"" | write-host

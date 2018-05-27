@@ -3,6 +3,9 @@
 pwd=$(pwd)
 base_dir="$pwd/.build-deps"
 tmp_dir="$base_dir/tmp"
+bin_dir="$base_dir/bin"
+
+export PATH="$bin_dir:$PATH"
 
 cmake_version="3.1.0"
 cmake_bin="$base_dir/bin/cmake"

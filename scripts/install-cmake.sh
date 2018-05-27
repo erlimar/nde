@@ -306,6 +306,3 @@ fi
 echo "-----------------------------"
 echo "CMake v$version successfully install!"
 echo ""
-echo "Add ""$cmake_bin_folder_path"" to PATH!"
-echo " - SH: export PATH=\"$cmake_bin_folder_path\":\"\$PATH\""
-echo ""

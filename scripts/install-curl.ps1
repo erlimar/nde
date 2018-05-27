@@ -215,7 +215,3 @@ if(!(Test-Path $CURLBinPath)) {
 "-----------------------------" | Write-Host
 "CURL v$Version successfully install!" | Write-Host
 "" | write-host
-"Add ""$CURLBinFolderPath"" to PATH!" | Write-Host
-' - PS : $env:Path = "' + $CURLBinFolderPath + ';${env:Path}"' | Write-Host
-' - CMD: set PATH="'    + $CURLBinFolderPath + ';%PATH%"' | Write-Host
-"" | Write-Host

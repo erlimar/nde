@@ -4,6 +4,7 @@ $baseDir = "$pwd\.build-deps"
 $tmpDir = "$baseDir\tmp"
 $binDir = "$baseDir\bin"
 
+"`$env:Path = `"$binDir;`$env:Path`"" | Write-Host
 $env:Path = "$binDir;$env:Path"
 
 $cmakeVersion = "3.1.0"

@@ -304,8 +304,4 @@ if(!(Test-Path $PerlBinPath)) {
 
 "-----------------------------" | Write-Host
 "PERL v$Version successfully install!" | Write-Host
-"" | write-host
-"Add ""$PerlBinFolderPath"" to PATH!" | Write-Host
-' - PS : $env:Path = "' + $PerlBinFolderPath + ';${env:Path}"' | Write-Host
-' - CMD: set PATH="'    + $PerlBinFolderPath + ';%PATH%"' | Write-Host
-"" | Write-Host
+"" | Write-host
