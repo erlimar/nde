@@ -9,16 +9,15 @@ de preparar seus ambientes com suas várias bibliotecas...
 > __NOTA:__ Você precisa estar em um _prompt de comandos_ do [Visual C++ Build Tools 2015 ou posterior](http://landinghub.visualstudio.com/visual-cpp-build-tools)
 
 ```powershell
-# Instala o CMake localmente para build
+# Instala as dependências (CMake, Perl, CURL) localmente
 .\bootstrap.ps1
 
 # Cria um diretório para os artefatos de build
 mkdir build
 cd build
 
-# Se preferir pode adicionar ".cmake\bin" ao PATH e executar somente `cmake ...`
-.\.cmake\bin\cmake.exe -G "NMake Makefiles" ..
-.\.cmake\bin\cmake.exe --build .
+.\..\cmake.ps1 -G "NMake Makefiles" ..
+nmake
 ```
 
 Isso é o suficiente para gerar o executável `.\build\nde.exe`!
