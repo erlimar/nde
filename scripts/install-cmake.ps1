@@ -201,7 +201,7 @@ $cmakeVersions = @(
 )
 
 if(!(Test-Path $InstallPath)) {
-	New-Item -Type Directory $InstallPath | out-null
+	New-Item -Type Directory $InstallPath | Out-Null
 }
 
 $cmakeZip = Get-CMakeFileUrl
@@ -218,27 +218,35 @@ $cmakeDirPath = [System.IO.Path]::Combine($DownloadPath, $cmakeDirName)
 $cmakeBinFolderPath = [System.IO.Path]::Combine($InstallPath, "bin")
 $cmakeBinPath = [System.IO.Path]::Combine($cmakeBinFolderPath, "cmake.exe")
 
-"Installing CMake v$Version..." | write-host
-"-----------------------------" | write-host
+"Installing CMake v$Version..." | Write-Host
+"-----------------------------" | Write-Host
 
-" -> Downloading $cmakeUrl..." | write-host
-Get-WebFile -Url $cmakeUrl -Path $cmakeFilePath
+if( ! (Test-Path $cmakeFilePath) ) {
+	" -> Downloading $cmakeUrl..." | Write-Host
+	Get-WebFile -Url $cmakeUrl -Path $cmakeFilePath
+}
 
-" -> Extracting $cmakeFileName" | write-host
-Extract-ZipFile -FilePath $cmakeFilePath -DirPath $DownloadPath
+if( ! (Test-Path $cmakeDirPath) ) {
+	" -> Extracting $cmakeFileName" | Write-Host
+	Extract-ZipFile -FilePath $cmakeFilePath -DirPath $DownloadPath
+}
 
-" -> Moving install files..." | write-host
-Get-ChildItem -Path $cmakeDirPath -Recurse -Directory | Move-Item -Destination $InstallPath
-Get-ChildItem -Path $cmakeDirPath -Recurse -File | Move-Item -Destination $InstallPath
+if(Test-Path $cmakeDirPath) {
+	" -> Moving install files..." | Write-Host
+	Get-ChildItem -Path $cmakeDirPath -Recurse -Directory | Move-Item -Destination $InstallPath
+	Get-ChildItem -Path $cmakeDirPath -Recurse -File | Move-Item -Destination $InstallPath
+}
 
-" -> Removing temporary files..." | write-host
-Remove-Item $cmakeDirPath -Force -Recurse
-Remove-Item $cmakeFilePath -Force
+if(!($LastExitCode)) {
+	" -> Removing temporary files..." | Write-Host
+	Remove-Item $cmakeDirPath -Force -Recurse
+	Remove-Item $cmakeFilePath -Force
+}
 
 if(!(Test-Path $cmakeBinPath)) {
 	throw "CMake v$Version install fail!"
 }
 
-"-----------------------------" | write-host
-"CMake v$Version successfully install!" | write-host
-"" | write-host
+"-----------------------------" | Write-Host
+"CMake v$Version successfully install!" | Write-Host
+"" | Write-Host

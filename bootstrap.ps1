@@ -4,7 +4,6 @@ $baseDir = "$pwd\.build-deps"
 $tmpDir = "$baseDir\tmp"
 $binDir = "$baseDir\bin"
 
-"`$env:Path = `"$binDir;`$env:Path`"" | Write-Host
 $env:Path = "$binDir;$env:Path"
 
 $cmakeVersion = "3.1.0"
@@ -37,3 +36,5 @@ if (!(Test-Path $curlBin))
 {
     & $curlInstall -Version $curlVersion -InstallPath $baseDir -DownloadPath $tmpDir -BuildStatic -BuildExe
 }
+
+"`$env:Path = `"$binDir;`$env:Path`"" | Write-Host
