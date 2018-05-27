@@ -172,7 +172,7 @@ if(!(Test-Path $CURLDirPath)) {
 
 " -> Building source (this may take a while.)..." | Write-Host
 if (!(Test-Path $CURLBuildPath)) {
-    New-Item -Type Directory $CURLBuildPath
+    New-Item -Type Directory $CURLBuildPath | Out-Null
 }
 
 if($BuildExe) {

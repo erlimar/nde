@@ -7,19 +7,16 @@ project (nde)
 # ---------------------------------
 set(CMAKE_PREFIX_PATH "${PROJECT_SOURCE_DIR}/.build-deps")
 
-set(REQUIRED_LIBS)
-
 find_package(CURL REQUIRED)
 
-if(CURL_FOUND)
-  #INCLUDE_DIRECTORIES(${CURL_INCLUDE_DIR})
-  #SET(REQUIRED_LIBS ${REQUIRED_LIBS} ${CURL_LIBRARIES} )
-  message(WARNING "Found the CURL library and development files.")
-  message(WARNING "  -> CURL_INCLUDE_DIR: ${CURL_INCLUDE_DIR}")
-  message(WARNING "  -> CURL_LIBRARIES: ${CURL_LIBRARIES}")
-else(CURL_FOUND)
-  message(FATAL_ERROR "Could not find the CURL library and development files.")
-endif(CURL_FOUND)
+include_directories(${CURL_INCLUDE_DIR})
+
+set(NDE_LIBS 
+    wldap32 
+    crypt32
+    Ws2_32
+    ${CURL_LIBRARIES}
+    )
 
 # ---------------------------------
 # Versão
@@ -47,18 +44,18 @@ set(SRCS_OBJ
     src/log.c
     src/process.c
     src/shared-runtime.c
-)
+    )
 
 set(SRCS_HTTPS
     src/https.c
-)
+    )
 
 if(UNIX)
     add_definitions(-DNDE_BUILD_ON_LINUX)
     set(SRCS_OBJ
         ${SRCS_OBJ}
         platform/linux/api/runtime.c
-    )
+        )
 endif()
 
 # if(APPLE)
@@ -70,22 +67,45 @@ if(WIN32)
     set(SRCS_OBJ
         ${SRCS_OBJ}
         platform/win32/api/runtime.c
-    )
+        )
 endif()
 
 # ---------------------------------
 # Alvos
 # ---------------------------------
-add_library(nde_objects OBJECT ${SRCS_OBJ})
-add_executable(nde $<TARGET_OBJECTS:nde_objects> src/main.c)
-add_executable(https ${SRCS_HTTPS})
+add_definitions(-DCURL_STATICLIB)
+
+add_library(
+    nde_objects 
+    OBJECT
+    ${SRCS_OBJ}
+    )
+
+add_executable(
+    nde 
+    $<TARGET_OBJECTS:nde_objects> 
+    src/main.c
+    )
+
+add_executable(
+    https
+    ${SRCS_HTTPS}
+    )
+
+target_link_libraries(
+    https 
+    ${NDE_LIBS}
+    )
 
 # ---------------------------------
 # Arquivos da instalação
 # ---------------------------------
-install(TARGETS  nde https
+install(TARGETS
+    nde
+    https
     RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib)
+    LIBRARY DESTINATION lib
+    )
 
 # ---------------------------------
 # Empacotamento
