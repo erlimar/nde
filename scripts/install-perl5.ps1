@@ -264,6 +264,7 @@ if($perlZip.Count -eq 0) {
 	throw "PERL v$Version not found!"
 }
 
+$PerlLogFilePath = "$pwd\perl-build.log"
 $PerlUrl = $perlZip[1]
 $PerlFileName = $perlZip[0]
 $PerlDirName = [System.IO.path]::GetFileNameWithoutExtension($PerlFileName).replace("v5", "perl5-5")
@@ -276,20 +277,26 @@ $PerlBuildPath = [System.IO.Path]::Combine($PerlDirPath, "win32")
 "Installing PERL v$Version..." | Write-Host
 "-----------------------------" | Write-Host
 
-" -> Downloading $PerlUrl..." | Write-Host
-Get-WebFile -Url $PerlUrl -Path $PerlFilePath
+if(!(Test-Path $PerlFilePath)) {
+	" -> Downloading $PerlUrl..." | Write-Host
+	Get-WebFile -Url $PerlUrl -Path $PerlFilePath
+}
 
-" -> Extracting $PerlFileName" | Write-Host
-Extract-ZipFile -FilePath $PerlFilePath -DirPath $DownloadPath
+if(!(Test-Path $PerlBuildPath)) {
+	" -> Extracting $PerlFileName" | Write-Host
+	Extract-ZipFile -FilePath $PerlFilePath -DirPath $DownloadPath
+}
 
 " -> Building source (this may take a while.)..." | Write-Host
 Push-Location $PerlBuildPath
-& nmake install INST_TOP=$InstallPath CCTYPE=$CCTYPE
+& nmake install INST_TOP=$InstallPath CCTYPE=$CCTYPE > $PerlLogFilePath
 Pop-Location
 
-" -> Removing temporary files..." | Write-Host
-Remove-Item $PerlDirPath -Force -Recurse
-Remove-Item $PerlFilePath -Force
+if(!($LastExitCode)) {
+	" -> Removing temporary files..." | Write-Host
+	Remove-Item $PerlDirPath -Force -Recurse
+	Remove-Item $PerlFilePath -Force
+}
 
 if(!(Test-Path $PerlBinPath)) {
 	throw "PERL v$Version install fail!"
