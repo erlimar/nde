@@ -155,6 +155,8 @@ case "$version" in
     5.26.0|5.26.1|5.26.2)
         perl_file_name=$(make_perl_file_name $version)
         ;;
+    # v5.27
+    # is_devel=true
     *)
         ;;
 esac
@@ -173,15 +175,6 @@ perl_dir_path="$download_path/$perl_dir_name"
 perl_bin_folder_path="$install_path/bin"
 perl_bin_path="$perl_bin_folder_path/perl"
 perl_bin_path_with_version="$perl_bin_folder_path/perl$version"
-
-echo "pwd: $pwd"
-echo "perl_dir_name: $perl_dir_name"
-echo "perl_file_name: $perl_file_name"
-echo "perl_url: $perl_url"
-echo "perl_file_path: $perl_file_path"
-echo "perl_dir_path: $perl_dir_path"
-echo "perl_bin_folder_path: $perl_bin_folder_path"
-echo "perl_bin_path: $perl_bin_path"
 
 if [ ! -d $install_path ]; then
     mkdir $install_path -p
@@ -204,18 +197,24 @@ echo " -> Building source (this may take a while)..."
 cd $perl_dir_path
 use_threads=-Dusethreads
 use_64bit=-Duse64bitall
+
 if [ $is_x86 = true ]; then
     use_64bit=
 fi
-sh Configure -de -Dusedevel $use_threads $use_64bit -Dprefix=$install_path
-make install PERLNAME=perl5 PERLNAME_VERBASE=perl
+
+if [ $is_devel = true ]; then
+    use_devel=-Dusedevel
+fi
+
+sh Configure -de $use_devel $use_threads $use_64bit -Dprefix=$install_path
+make install PERLNAME=perl PERLNAME_VERBASE=perl
 cd $pwd
 
-# if [ "$?" = "0" ]; then
-#     echo " -> Removing temporary files..."
-#     rm -Rf $perl_file_path
-#     rm -Rdf $perl_dir_path
-# fi
+if [ "$?" = "0" ]; then
+    echo " -> Removing temporary files..."
+    rm -Rf $perl_file_path
+    rm -Rdf $perl_dir_path
+fi
 
 if [ ! -f $perl_bin_path ]; then
     _error "Perl v$version install fail!"

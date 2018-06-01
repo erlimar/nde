@@ -31,9 +31,9 @@ if [ ! -f $cmake_bin ]; then
     $install_cmake --version $cmake_version --install-path $base_dir --download-path $tmp_dir
 fi
 
-# if [ ! -f $perl_bin ]; then
-#     $install_perl --version $perl_version --install-path $base_dir --download-path $tmp_dir
-# fi
+if [ ! -f $perl_bin ]; then
+    $install_perl --version $perl_version --install-path $base_dir --download-path $tmp_dir
+fi
 
 # if [ ! -f $curl_bin ]; then
 #     $install_curl --version $curl_version --install-path $base_dir --download-path $tmp_dir --build-static --build-exe
