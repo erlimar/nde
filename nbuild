@@ -1,0 +1,28 @@
+#!/bin/sh
+
+pwd=$(pwd)
+cd $(dirname $0)
+project_dir=$(pwd)
+cd $pwd
+
+if [ "$#" -lt "1" ]; then
+    echo "Usage: \$nbuild command [arguments]"
+    exit 1
+fi
+
+bootstrap="$project_dir/bootstrap"
+command=$1; shift
+args=
+
+while [ "$1" != "" ]; do
+    if echo "$1" | grep ' '>/dev/null; then
+        args="$args \"$1\"";
+    else
+        args="$args $1"
+    fi
+    shift
+done
+
+export PATH="$project_dir/.build-deps/bin:$PATH"
+
+$bootstrap; eval "$command $args"

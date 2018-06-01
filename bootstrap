@@ -1,0 +1,40 @@
+#!/bin/sh
+
+pwd=$(pwd)
+cd $(dirname $0)
+project_dir=$(pwd)
+cd $pwd
+
+base_dir="$project_dir/.build-deps"
+tmp_dir="$base_dir/tmp"
+bin_dir="$base_dir/bin"
+
+export PATH="$bin_dir:$PATH"
+
+cmake_version="3.1.0"
+cmake_bin="$bin_dir/cmake"
+install_cmake="$project_dir/scripts/install-cmake.sh"
+
+perl_version="5.26.2"
+perl_bin="$bin_dir/perl"
+install_perl="$project_dir/scripts/install-perl5.sh"
+
+curl_version="7.60.0"
+curl_bin="$bin_dir/curl"
+install_curl="$project_dir/scripts/install-curl.sh"
+
+if [ ! -d $tmp_dir ]; then
+    mkdir $tmp_dir -p
+fi
+
+if [ ! -f $cmake_bin ]; then
+    $install_cmake --version $cmake_version --install-path $base_dir --download-path $tmp_dir
+fi
+
+# if [ ! -f $perl_bin ]; then
+#     $install_perl --version $perl_version --install-path $base_dir --download-path $tmp_dir
+# fi
+
+# if [ ! -f $curl_bin ]; then
+#     $install_curl --version $curl_version --install-path $base_dir --download-path $tmp_dir --build-static --build-exe
+# fi

@@ -286,17 +286,26 @@ fi
 echo "Installing CMake v$version..."
 echo "-----------------------------"
 
-echo " -> Downloading $cmake_url..."
-download $cmake_url $cmake_file_path
+if [ ! -f $cmake_file_path ]; then
+    echo " -> Downloading $cmake_url..."
+    download $cmake_url $cmake_file_path
+fi
 
-echo " -> Extracting $cmake_file_name"
-extract_zipfile $cmake_file_path $download_path
+if [ ! -d $cmake_dir_path ]; then
+    echo " -> Extracting $cmake_file_name"
+    extract_zipfile $cmake_file_path $download_path
+fi
 
-echo " -> Moving install files..."
-mv $cmake_dir_path/* $install_path
+if [ -d $cmake_dir_path ]; then
+    echo " -> Moving install files..."
+    mv $cmake_dir_path/* $install_path
+fi
 
-echo " -> Removing temporary files..."
-rm -Rf $cmake_file_path
+if [ "$?" = "0" ]; then
+    echo " -> Removing temporary files..."
+    rm -Rf $cmake_file_path
+    rm -Rdf $cmake_dir_path
+fi
 
 if [ ! -f $cmake_bin_path ]; then
     _error "CMake v$version install fail!"
