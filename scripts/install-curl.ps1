@@ -1,4 +1,4 @@
-#Requires -Version 2
+#Requires -Version 3
 
 param (
 	[string] $Version = $(throw "-Version is required."),

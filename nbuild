@@ -6,7 +6,7 @@ project_dir=$(pwd)
 cd $pwd
 
 if [ "$#" -lt "1" ]; then
-    echo "Usage: \$nbuild command [arguments]"
+    echo "Usage: nbuild command [arguments]"
     exit 1
 fi
 
