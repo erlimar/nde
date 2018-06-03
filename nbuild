@@ -25,4 +25,8 @@ done
 
 export PATH="$project_dir/.build-deps/bin:$PATH"
 
-$bootstrap; eval "$command $args"
+$bootstrap
+
+if [ "$?" = "0" ]; then
+    eval "$command $args"
+fi

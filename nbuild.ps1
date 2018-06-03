@@ -19,4 +19,8 @@ for($count = 0; $count -lt $args.length; $count++) {
 $bootstrap = "$PSScriptRoot\bootstrap.ps1"
 $env:Path = "$PSScriptRoot\.build-deps\bin;$env:Path"
 
-& $bootstrap; iex "& $command $args"
+& $bootstrap
+
+if(!($LastExitCode)) {
+    iex "& $command $args"
+}
