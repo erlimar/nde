@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.1 FATAL_ERROR)
 
-project (nde)
+project (nde C)
 
 # ---------------------------------
 # Pré-requisitos
@@ -11,12 +11,11 @@ find_package(CURL REQUIRED)
 
 include_directories(${CURL_INCLUDE_DIR})
 
-set(NDE_LIBS 
-    wldap32 
-    crypt32
-    Ws2_32
-    ${CURL_LIBRARIES}
-    )
+set(NDE_LIBS  ${CURL_LIBRARIES})
+
+if(WIN32)
+    set(NDE_LIBS ${NDE_LIBS} wldap32 crypt32 Ws2_32)
+endif(WIN32)
 
 # ---------------------------------
 # Versão
@@ -87,22 +86,22 @@ add_executable(
     src/main.c
     )
 
-add_executable(
-    https
-    ${SRCS_HTTPS}
-    )
+# add_executable(
+#     https
+#     ${SRCS_HTTPS}
+#     )
 
-target_link_libraries(
-    https 
-    ${NDE_LIBS}
-    )
+# target_link_libraries(
+#     https 
+#     ${NDE_LIBS}
+#     )
 
 # ---------------------------------
 # Arquivos da instalação
 # ---------------------------------
 install(TARGETS
     nde
-    https
+    # https
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     )
