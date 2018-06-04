@@ -1,0 +1,29 @@
+ID = curl
+DESCRIPTION = CURL package for NDE
+AUTHOR = Erlimar
+AUTHOR_CONTACT = twitter:@erlimar, email:erlimar@gmail.com, github:erlimar
+OWNER = Dono original do CURL
+LICENSE = MIT
+LICENSE_URL = https://license.url 
+TAGS = net http internet transfer 
+
+# $ nde .. --OPTION_A "value to option a"
+# $ nde .. --OPTION_A="value to option a"
+- OPTION_A = {{ * }}
+
+# $ nde .. --USE_STATIC --USE_ZLIB
+# $ nde .. --USE-STATIC --USE-ZLIB
+# $ nde .. --use_static --use_zlib
+# $ nde .. --use-static --use-zlib
+- USE_STATIC = OFF [[ ON | OFF ]]
+- USE_ZLIB = ON [[ ON | OFF ]]
+
+# = Garante PATCH como versão mínima 
+# ~ Garante MINOR como versão mínima 
+# ^ Garante MAJOR como versão mínima 
+# {id} {min_version} [.. {max_version}]
+require zlib ~1.45 %if ( $USE_ZLIB )
+- OPTION_A "OPTION A VALUE"
+- OPTION_B OPTION_B_VALUE
+- USE_STATIC 1 %if ( $USE_STATIC )
+- USE_STATIC 0 %unless ( $USE_STATIC )
