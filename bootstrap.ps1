@@ -22,17 +22,17 @@ if(!(Test-Path $tmpDir)) {
     New-Item -Type Directory $tmpDir | Out-Null
 }
 
-# if (!(Test-Path $cmakeBin))
-# {
-#     & $cmakeInstall -Version $cmakeVersion -InstallPath $baseDir -DownloadPath $tmpDir
-# }
+if (!(Test-Path $cmakeBin))
+{
+    & $cmakeInstall -Version $cmakeVersion -InstallPath $baseDir -DownloadPath $tmpDir
+}
 
 if (!(Test-Path $perlBin))
 {
     & $perlInstall -Version $perlVersion -InstallPath $baseDir -DownloadPath $tmpDir
 }
 
-# if (!(Test-Path $curlBin))
-# {
-#     & $curlInstall -Version $curlVersion -InstallPath $baseDir -DownloadPath $tmpDir -BuildStatic -BuildExe
-# }
+if (!(Test-Path $curlBin))
+{
+    & $curlInstall -Version $curlVersion -InstallPath $baseDir -DownloadPath $tmpDir -BuildStatic -BuildExe
+}
