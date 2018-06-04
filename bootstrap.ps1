@@ -3,6 +3,7 @@
 $baseDir = "$PSScriptRoot\.build-deps"
 $tmpDir = "$baseDir\tmp"
 $binDir = "$baseDir\bin"
+$incDir = "$baseDir\include"
 
 $env:Path = "$binDir;$env:Path"
 
@@ -18,6 +19,10 @@ $curlVersion = "7.60.0"
 $curlBin = "$binDir\curl.exe"
 $curlInstall = "$PSScriptRoot\scripts\install-curl.ps1"
 
+$zlibVersion = "1.2.0.5"
+$zlibHeader = "$incDir\zlib.h"
+$zlibInstall = "$PSScriptRoot\scripts\install-zlib.ps1"
+
 if(!(Test-Path $tmpDir)) {
     New-Item -Type Directory $tmpDir | Out-Null
 }
@@ -30,6 +35,11 @@ if (!(Test-Path $cmakeBin))
 if (!(Test-Path $perlBin))
 {
     & $perlInstall -Version $perlVersion -InstallPath $baseDir -DownloadPath $tmpDir
+}
+
+if (!(Test-Path $zlibHeader))
+{
+    & $zlibInstall -Version $zlibVersion -InstallPath $baseDir -DownloadPath $tmpDir -BuildStatic
 }
 
 if (!(Test-Path $curlBin))
