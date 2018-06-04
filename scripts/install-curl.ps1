@@ -195,7 +195,7 @@ cmake -G "NMake Makefiles" "$CURLDirPath" `
       "`"-D$buildStaticParam`"" `
       "`"-DHTTP_ONLY=ON`"" `
       "`"-DCMAKE_USE_WINSSL=ON`"" `
-      "`"-DCURL_ZLIB=OFF`"" `
+      "`"-DCURL_ZLIB=ON`"" `
 	  "`"-DBUILD_TESTING=OFF`"" > $CURLLogFilePath
 if(!($LastExitCode)) {
 	nmake install > $CURLLogFilePath
