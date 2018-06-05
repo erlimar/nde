@@ -2,7 +2,7 @@
 
 param([string] $command)
 
-if ($args.length -lt 1) {
+if ("$command" -eq "") {
     "Usage: nbuild command [arguments]" | Write-Host
     exit 1
 }

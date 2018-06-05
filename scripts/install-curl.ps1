@@ -170,7 +170,7 @@ if(!(Test-Path $CURLDirPath)) {
 	Extract-ZipFile -FilePath $CURLFilePath -DirPath $DownloadPath
 }
 
-" -> Building source (this may take a while.)..." | Write-Host
+" -> Building source (this may take a while)..." | Write-Host
 if (!(Test-Path $CURLBuildPath)) {
     New-Item -Type Directory $CURLBuildPath | Out-Null
 }
@@ -196,9 +196,9 @@ cmake -G "NMake Makefiles" "$CURLDirPath" `
       "`"-DHTTP_ONLY=ON`"" `
       "`"-DCMAKE_USE_WINSSL=ON`"" `
       "`"-DCURL_ZLIB=ON`"" `
-	  "`"-DBUILD_TESTING=OFF`"" > $CURLLogFilePath
+	  "`"-DBUILD_TESTING=OFF`"" *> $CURLLogFilePath
 if(!($LastExitCode)) {
-	nmake install > $CURLLogFilePath
+	nmake install *>> $CURLLogFilePath
 }
 Pop-Location
 

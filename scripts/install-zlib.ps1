@@ -167,9 +167,9 @@ if(!(Test-Path $ZLibDirPath)) {
 " -> Building source (this may take a while)..." | Write-Host
 Push-Location $ZLibDirPath
 if($BuildStatic) {
-    & nmake -f win32/Makefile.msc zlib.lib > $ZLibLogFilePath
+    & nmake -f win32/Makefile.msc zlib.lib *> $ZLibLogFilePath
 }else{
-    & nmake -f win32/Makefile.msc zdll.lib > $ZLibLogFilePath
+    & nmake -f win32/Makefile.msc zdll.lib *> $ZLibLogFilePath
 }
 if(!($LastExitCode)) {
     " -> Moving install files..." | Write-Host

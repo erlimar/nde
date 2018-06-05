@@ -19,7 +19,7 @@ $curlVersion = "7.60.0"
 $curlBin = "$binDir\curl.exe"
 $curlInstall = "$PSScriptRoot\scripts\install-curl.ps1"
 
-$zlibVersion = "1.2.0.5"
+$zlibVersion = "1.2.11"
 $zlibHeader = "$incDir\zlib.h"
 $zlibInstall = "$PSScriptRoot\scripts\install-zlib.ps1"
 
