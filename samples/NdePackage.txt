@@ -9,6 +9,7 @@ TAGS = net http internet transfer
 
 # $ nde .. --OPTION_A "value to option a"
 # $ nde .. --OPTION_A="value to option a"
+options:
 - OPTION_A = {{ * }}
 
 # $ nde .. --USE_STATIC --USE_ZLIB
@@ -22,7 +23,7 @@ TAGS = net http internet transfer
 # ~ Garante MINOR como versão mínima 
 # ^ Garante MAJOR como versão mínima 
 # {id} {min_version} [.. {max_version}]
-require zlib ~1.45 %if ( $USE_ZLIB )
+require zlib ~1.45: %if ( $USE_ZLIB )
 - OPTION_A "OPTION A VALUE"
 - OPTION_B OPTION_B_VALUE
 - USE_STATIC 1 %if ( $USE_STATIC )
