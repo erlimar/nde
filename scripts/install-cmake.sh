@@ -106,7 +106,7 @@ extract_zipfile()
     local zip_path="$1"
     local out_path="$2"
 
-    tar -xzf "$zip_path" -C "$out_path" > /dev/null
+    tar -xzf "$zip_path" -C "$out_path" > /dev/null 2>&1
 }
 
 download() {
@@ -297,7 +297,7 @@ if [ ! -d $cmake_dir_path ]; then
 fi
 
 if [ -d $cmake_dir_path ]; then
-    echo " -> Moving install files..."
+    echo " -> Installing files..."
     mv $cmake_dir_path/* $install_path
 fi
 

@@ -232,7 +232,7 @@ if( ! (Test-Path $cmakeDirPath) ) {
 }
 
 if(Test-Path $cmakeDirPath) {
-	" -> Moving install files..." | Write-Host
+	" -> Installing files..." | Write-Host
 	Get-ChildItem -Path $cmakeDirPath -Recurse -Directory | Move-Item -Destination $InstallPath
 	Get-ChildItem -Path $cmakeDirPath -Recurse -File | Move-Item -Destination $InstallPath
 }

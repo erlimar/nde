@@ -169,7 +169,7 @@ if(!(Test-Path $PerlBuildPath)) {
 
 " -> Building source (this may take a while)..." | Write-Host
 Push-Location $PerlBuildPath
-& nmake install INST_TOP=$InstallPath CCTYPE=$CCTYPE > $PerlLogFilePath
+& nmake install INST_TOP=$InstallPath CCTYPE=$CCTYPE *> $PerlLogFilePath
 Pop-Location
 
 if(!($LastExitCode)) {

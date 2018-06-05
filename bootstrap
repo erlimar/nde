@@ -19,6 +19,10 @@ perl_version="5.26.2"
 perl_bin="$bin_dir/perl"
 install_perl="$project_dir/scripts/install-perl5.sh"
 
+# TODO: Zlib
+# TODO: NASM?
+# TODO: OpenSSL
+
 curl_version="7.60.0"
 curl_bin="$bin_dir/curl"
 install_curl="$project_dir/scripts/install-curl.sh"
@@ -34,6 +38,10 @@ fi
 if [ ! -f $perl_bin ]; then
     $install_perl --version $perl_version --install-path $base_dir --download-path $tmp_dir
 fi
+
+# TODO: Zlib
+# TODO: NASM?
+# TODO: OpenSSL
 
 if [ ! -f $curl_bin ]; then
     $install_curl --version $curl_version --install-path $base_dir --download-path $tmp_dir --build-static --build-exe
