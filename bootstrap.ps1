@@ -15,13 +15,19 @@ $perlVersion = "5.27.8"
 $perlBin = "$binDir\perl.exe"
 $perlInstall = "$PSScriptRoot\scripts\install-perl5.ps1"
 
-$curlVersion = "7.60.0"
-$curlBin = "$binDir\curl.exe"
-$curlInstall = "$PSScriptRoot\scripts\install-curl.ps1"
-
 $zlibVersion = "1.2.11"
 $zlibHeader = "$incDir\zlib.h"
 $zlibInstall = "$PSScriptRoot\scripts\install-zlib.ps1"
+
+# TODO: NASM
+
+$openSSLVersion = "1.1.0h"
+$openSSLBin = "$binDir\openssl.exe"
+$openSSLInstall = "$PSScriptRoot\scripts\install-openssl.ps1"
+
+$curlVersion = "7.60.0"
+$curlBin = "$binDir\curl.exe"
+$curlInstall = "$PSScriptRoot\scripts\install-curl.ps1"
 
 if(!(Test-Path $tmpDir)) {
     New-Item -Type Directory $tmpDir | Out-Null
@@ -40,6 +46,13 @@ if (!(Test-Path $perlBin))
 if (!(Test-Path $zlibHeader))
 {
     & $zlibInstall -Version $zlibVersion -InstallPath $baseDir -DownloadPath $tmpDir -BuildStatic
+}
+
+# TODO: Install NASM
+
+if (!(Test-Path $openSSLBin))
+{
+    & $openSSLInstall -Version $openSSLVersion -InstallPath $baseDir -DownloadPath $tmpDir -UseZLibStatic -BuildStatic
 }
 
 if (!(Test-Path $curlBin))
