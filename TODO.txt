@@ -1,8 +1,6 @@
 * Implementar executar processo Windows com redirect STDIN e STDOUT
 * Implementar executar processo Linux com redirect STDIN e STDOUT
 * Implementar executar processo macOS com redirect STDIN e STDOUT
-* Implementar ler argumentos
-* Implementar ler variáveis de ambiente
 * Implementar sobrescrever variáveis de ambiente em processos filhos
 * Implementar interface para processo filho alterar variáveis de
   ambiente nos próximos processos
@@ -13,10 +11,11 @@
 * Implementar executar ambiente sandbox local (diretório atual)
 * Definir formato de pacotes em TXT PURO
 * Implementar download de arquivo com cURL
-* Implementar pacote ZLIB
-* Implementar executar instalador de pacote ZLIB
-* Implementar outros pacotes
+* Implementar pacotes
   - cURL
   - OpenSSL
   - Perl5
   - SQLite
+  - CMake-src
+  - CMake-bin
+  - NASM
