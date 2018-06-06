@@ -57,5 +57,5 @@ if (!(Test-Path $openSSLBin))
 
 if (!(Test-Path $curlBin))
 {
-    & $curlInstall -Version $curlVersion -InstallPath $baseDir -DownloadPath $tmpDir -BuildStatic -BuildExe
+    & $curlInstall -Version $curlVersion -InstallPath $baseDir -DownloadPath $tmpDir -HTTPOnly -BuildStatic -BuildExe
 }

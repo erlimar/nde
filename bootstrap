@@ -44,5 +44,5 @@ fi
 # TODO: OpenSSL
 
 if [ ! -f $curl_bin ]; then
-    $install_curl --version $curl_version --install-path $base_dir --download-path $tmp_dir --build-static --build-exe
+    $install_curl --version $curl_version --install-path $base_dir --download-path $tmp_dir --http-only --build-static --build-exe
 fi

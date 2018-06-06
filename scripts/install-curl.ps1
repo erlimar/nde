@@ -4,6 +4,7 @@ param (
 	[string] $Version = $(throw "-Version is required."),
 	[string] $InstallPath = $(throw "-InstallPath is required."),
     [string] $DownloadPath = "",
+	[switch] $HTTPOnly = $false,
 	[switch] $BuildStatic = $false,
 	[switch] $BuildExe = $false
 )
@@ -187,13 +188,19 @@ if($BuildStatic) {
 	$buildStaticParam = "CURL_STATICLIB=OFF"
 }
 
+if($HTTPOnly) {
+	$buildHTTPOnly = "HTTP_ONLY=ON=ON"
+} else {
+	$buildHTTPOnly = "HTTP_ONLY=ON=OFF"
+}
+
 Push-Location $CURLBuildPath
 cmake -G "NMake Makefiles" "$CURLDirPath" `
       "`"-DCMAKE_BUILD_TYPE=Release`"" `
       "`"-DCMAKE_INSTALL_PREFIX=$InstallPath`"" `
       "`"-D$buildExeParam`"" `
       "`"-D$buildStaticParam`"" `
-      "`"-DHTTP_ONLY=ON`"" `
+      "`"-D$buildHTTPOnly`"" `
       "`"-DCMAKE_USE_WINSSL=ON`"" `
       "`"-DCURL_ZLIB=ON`"" `
 	  "`"-DBUILD_TESTING=OFF`"" *> $CURLLogFilePath

@@ -30,22 +30,25 @@ while [ $# -ne 0 ]
 do
     name="$1"
     case "$name" in
-        --version|-[Vv]ersion)
+        --version)
             shift
             version="$1"
             ;;
-        --[Ii]nstall-[Pp]ath)
+        --install-path)
             shift
             install_path="$1"
             ;;
-        --[Dd]ownload-[Pp]ath)
+        --download-path)
             shift
             download_path="$1"
             ;;
-        --[Bb]uild-[Ss]tatic)
+        --http-only)
+            build_http_only=true
+            ;;
+        --build-static)
             build_static=true
             ;;
-        --[Bb]uild-[Ee]xe)
+        --build-exe)
             build_exe=true
             ;;
         *)
@@ -354,6 +357,12 @@ if [ -d $curl_dir_path ]; then
         build_static_param="CURL_STATICLIB=OFF"
     fi
 
+    if [ $http_only = true ]; then
+        build_http_only="HTTP_ONLY=ON"
+    else
+        build_http_only="HTTP_ONLY=OFF"
+    fi
+
     cd $curl_build_path
 
     cmake -G "Unix Makefiles" $curl_dir_path \
@@ -361,7 +370,7 @@ if [ -d $curl_dir_path ]; then
       -DCMAKE_INSTALL_PREFIX=$install_path \
       -D$build_exe_param \
       -D$build_static_param \
-      -DHTTP_ONLY=ON \
+      -D$build_http_only \
       -DCURL_CA_PATH=none \
       -DCMAKE_USE_OPENSSL=OFF \
       -DCURL_ZLIB=OFF \

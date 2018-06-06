@@ -30,15 +30,15 @@ while [ $# -ne 0 ]
 do
     name="$1"
     case "$name" in
-        --version|-[Vv]ersion)
+        --version)
             shift
             version="$1"
             ;;
-        --[Ii]nstall-[Pp]ath)
+        --install-path)
             shift
             install_path="$1"
             ;;
-        --[Dd]ownload-[Pp]ath)
+        --download-path)
             shift
             download_path="$1"
             ;;
