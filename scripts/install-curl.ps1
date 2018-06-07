@@ -4,9 +4,9 @@ param (
 	[string] $Version = $(throw "-Version is required."),
 	[string] $InstallPath = $(throw "-InstallPath is required."),
     [string] $DownloadPath = "",
-	[switch] $HTTPOnly = $false,
-	[switch] $BuildStatic = $false,
-	[switch] $BuildExe = $false
+    [switch] $UseOpenSSL = $false,
+    [switch] $UseZLibStatic = $false,
+	[switch] $BuildStatic = $false
 )
 
 if($InstallPath.StartsWith("./")) { $InstallPath = $InstallPath.replace("./", "$pwd/") }
@@ -33,6 +33,32 @@ $windowsArch = $X86WindowsArch
 if([IntPtr]::Size -eq 8) {
 	$processorArch = $X64ProcessorArch
 	$windowsArch = $X64WindowsArch
+}
+
+# Detect VC version
+if ("$env:VS150COMNTOOLS" -ne "") {
+    $VC = "15"
+}
+elseif ("$env:VS140COMNTOOLS" -ne "") {
+     $VC = "14"
+}
+elseif ("$env:VS120COMNTOOLS" -ne "") {
+    $VC = "12"
+}
+elseif ("$env:VS110COMNTOOLS" -ne "") {
+    $VC = "11"
+}
+elseif ("$env:VS100COMNTOOLS" -ne "") {
+    $VC = "10"
+}
+elseif ("$env:VS90COMNTOOLS" -ne "") {
+    $VC = "9"
+}
+elseif ("$env:VS80COMNTOOLS" -ne "") {
+    $VC = "8"
+}
+else {
+    $VC = "6"
 }
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -156,7 +182,8 @@ $CURLFilePath = [System.IO.Path]::Combine($DownloadPath, $CURLFileName)
 $CURLDirPath = [System.IO.Path]::Combine($DownloadPath, $CURLDirName)
 $CURLBinFolderPath = [System.IO.Path]::Combine($InstallPath, "bin")
 $CURLBinPath = [System.IO.Path]::Combine($CURLBinFolderPath, "curl.exe")
-$CURLBuildPath = [System.IO.Path]::Combine($CURLDirPath, "build")
+$CURLBuildPath = [System.IO.Path]::Combine($CURLDirPath, "winbuild")
+$CURLDistPath = [System.IO.Path]::Combine($CURLDirPath, "builds")
 
 "Installing CURL v$Version..." | Write-Host
 "-----------------------------" | Write-Host
@@ -176,36 +203,43 @@ if (!(Test-Path $CURLBuildPath)) {
     New-Item -Type Directory $CURLBuildPath | Out-Null
 }
 
-if($BuildExe) {
-	$buildExeParam = "BUILD_CURL_EXE=ON"
-} else {
-	$buildExeParam = "BUILD_CURL_EXE=OFF"
-}
+# TODO: Parameter
+$WithDevel = $InstallPath
 
 if($BuildStatic) {
-	$buildStaticParam = "CURL_STATICLIB=ON"
+    $paramMode = "static"
 } else {
-	$buildStaticParam = "CURL_STATICLIB=OFF"
+    $paramMode = "dll"
 }
 
-if($HTTPOnly) {
-	$buildHTTPOnly = "HTTP_ONLY=ON=ON"
+if($UseOpenSSL) {
+    # TODO: static/dll
+    $paramSSL = "WITH_SSL=static"
 } else {
-	$buildHTTPOnly = "HTTP_ONLY=ON=OFF"
+    $paramSSL = "ENABLE_WINSSL=yes"
 }
+
+# if($UseZLibStatic) {
+#     # TODO: static/dll
+#     $paramZLib = "WITH_ZLIB=static"
+# } else {
+#     $paramZLib = "WITH_ZLIB=dll"
+# }
 
 Push-Location $CURLBuildPath
-cmake -G "NMake Makefiles" "$CURLDirPath" `
-      "`"-DCMAKE_BUILD_TYPE=Release`"" `
-      "`"-DCMAKE_INSTALL_PREFIX=$InstallPath`"" `
-      "`"-D$buildExeParam`"" `
-      "`"-D$buildStaticParam`"" `
-      "`"-D$buildHTTPOnly`"" `
-      "`"-DCMAKE_USE_WINSSL=ON`"" `
-      "`"-DCURL_ZLIB=ON`"" `
-	  "`"-DBUILD_TESTING=OFF`"" *> $CURLLogFilePath
+nmake /f Makefile.vc `
+    VC=$VC `
+    MODE=$paramMode `
+    WITH_DEVEL=$WithDevel `
+    $paramSSL `
+    WITH_ZLIB=static `
+    MACHINE=$processorArch `
+    DEBUG=no > $CURLLogFilePath
+
 if(!($LastExitCode)) {
-	nmake install *>> $CURLLogFilePath
+    Copy-Item -Path "$CURLDistPath\**\bin" -Destination $InstallPath -Include "*" -Recurse -Force
+    Copy-Item -Path "$CURLDistPath\**\include" -Destination $InstallPath -Include "*" -Recurse -Force
+    Copy-Item -Path "$CURLDistPath\**\lib" -Destination $InstallPath -Include "*" -Recurse -Force
 }
 Pop-Location
 
