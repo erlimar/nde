@@ -1,0 +1,5 @@
+VARIABLE1 = value 1
+VARIABLE2 = value 2
+
+@pkg-name = version, -tag1, -tag2
+@curl = 7.60.0, -win-x86-static, -osx-x64-dynamic, -linux-x64-static

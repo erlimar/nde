@@ -1,36 +1,40 @@
-ID = curl
-DESCRIPTION = CURL package for NDE
-AUTHOR = Erlimar
-AUTHOR_CONTACT = twitter:@erlimar, email:erlimar@gmail.com, github:erlimar
-OWNER = Dono original do CURL
-LICENSE = MIT
-LICENSE_URL = https://license.url 
-TAGS = net http internet transfer 
+@package:
+- ID = "curl"
+- DESCRIPTION = "CURL package for NDE"
+- AUTHOR = "Erlimar"
+- AUTHOR_CONTACT = "twitter:@erlimar", "email:erlimar@gmail.com", "github:erlimar"
+- OWNER = "Dono original do CURL"
+- LICENSE = "MIT"
+- LICENSE_URL = "https://license.url"
+- TAGS = net, http, "internet", transfer
 
 # $ nde .. --OPTION_A "value to option a"
 # $ nde .. --OPTION_A="value to option a"
-options:
-- OPTION_A = {{ * }}
+@options:
+- OPTION_A = {{ * }} #required option
 
 # $ nde .. --USE_STATIC --USE_ZLIB
 # $ nde .. --USE-STATIC --USE-ZLIB
 # $ nde .. --use_static --use_zlib
 # $ nde .. --use-static --use-zlib
-- USE_STATIC = OFF [[ ON | OFF ]]
+- USE_STATIC = OFF [[ ON | OFF ]] #optional option
 - USE_ZLIB = ON [[ ON | OFF ]]
 
 # = Garante PATCH como versão mínima 
 # ~ Garante MINOR como versão mínima 
 # ^ Garante MAJOR como versão mínima 
 # {id} {min_version} [.. {max_version}]
-require zlib ~1.45: %if ( $USE_ZLIB )
-- OPTION_A "OPTION A VALUE"
-- OPTION_B OPTION_B_VALUE
-- USE_STATIC 1 %if ( $USE_STATIC )
-- USE_STATIC 0 %unless ( $USE_STATIC )
+@require zlib ~1.45: %if $USE_ZLIB
+- OPTION_A = "OPTION A VALUE"
+- OPTION_B = OPTION_B_VALUE
+- USE_STATIC = 1 %if $USE_STATIC
+- USE_STATIC = 0 %unless $USE_STATIC
 
-# Predefined variables
-# $NDE_PACKAGE_VERSION
+# Predefined global variables
+# $NDE_PKG_VERSION
+# $NDE_PKG_VERSION_MAJOR
+# $NDE_PKG_VERSION_MINOR
+# $NDE_PKG_VERSION_PATCH
 # $NDE_BUILD_DIRECTORY
 # $NDE_ROOT_DIRECTORY
 # $NDE_HOST_PLATFORM_ARCH
@@ -38,13 +42,27 @@ require zlib ~1.45: %if ( $USE_ZLIB )
 # $NDE_TARGET_PLATFORM_ARCH
 # $NDE_TARGET_PLATFORM_NAME
 # $NDE_IS_CROSS_COMPILING = ($NDE_HOST_PLATFORM_ARCH != $NDE_TARGET_PLATFORM_ARCH)
-make:
+@make: %if (%in $NDE_PKG_VERSION_MAJOR, "1", "2", "3", "4", "5")
 # support variables
-- FILE_PREFIX = %concat "curl_", $NDE_PACKAGE_VERSION
+- FILE_PREFIX = %concat "curl_", $NDE_PKG_VERSION
 - FILE_NAME = %concat $FILE_PREFIX, ".zip"
 - FILE_PATH = %path.combine $NDE_BUILD_DIRECTORY, $FILE_NAME
 - DIRECTORY_PATH = %path.combine $NDE_BUILD_DIRECTORY, $FILE_PREFIX
+
 # make actions
 - %download $URL $FILE_PATH | %die "Erro ao fazer download de %s", $URL
 - %unzip $FILE_PATH, $NDE_BUILD_DIRECTORY
+
+# 4 and 5 versions
+%if (%greater $NDE_PKG_VERSION_MAJOR, 3) {
+- %copy ...
+}
+
+# all versions
 - %copy $DIRECTORY_PATH, "**/*", $NDE_ROOT_DIRECTORY
+
+# export package configuration
+# essas configurações vão para o arquivo de lock como variáveis de ambiente
+# - quando um pacote é instalado (após resolvido dependências) gera um
+# - arquivo de lock "NdeLock.txt"
+- %export MY_PKG_VERSION, $NDE_PKG_VERSION
