@@ -91,7 +91,7 @@ make.ensure(function (ok) {
     ok();
 })
 
-make(function (action, die) {
+make(function () {
     if (0 > ["1", "2", "3", "4", "5"].indexOf(NDE_PKG_VERSION_MAJOR)) return;
 
     // support variables
